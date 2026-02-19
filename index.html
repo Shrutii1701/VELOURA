@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOURA — Discover Your Signature Scent</title>
+    <meta name="description"
+        content="VELOURA — AI-powered luxury perfume recommendation. Find your perfect fragrance based on personality, mood & lifestyle.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="bg-canvas">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="grain"></div>
+
+    <!-- FLOATING PERFUME BOTTLES -->
+    <div class="float-bottle fb-1">🧴</div>
+    <div class="float-bottle fb-2">🌺</div>
+    <div class="float-bottle fb-3">🌸</div>
+    <div class="float-bottle fb-4">🧪</div>
+    <div class="float-bottle fb-5">🌹</div>
+    <div class="float-bottle fb-6">✨</div>
+    <div class="float-bottle fb-7">🌼</div>
+    <div class="float-bottle fb-8">💎</div>
+
+    <!-- NAV -->
+    <nav class="nav" id="mainNav">
+        <div class="brand">
+            <div class="brand-icon">V</div>
+            <span class="brand-name">VELOURA</span>
+        </div>
+        <div class="nav-right">
+            <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+                <div class="toggle-ball" id="toggleBall">🌙</div>
+            </div>
+            <button class="nav-feedback-btn" onclick="showPage('feedback')" title="Feedback & Queries">💬</button>
+            <div class="nav-user" id="navUser" style="display:none" onclick="doLogout()" title="Click to logout">
+                <div class="avatar" id="navAvatar">V</div>
+                <span class="uname" id="navName">User</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LOGIN -->
+    <section id="page-login" class="page">
+        <div class="login-wrap">
+            <div class="login-card">
+                <div class="brand-lg">VELOURA</div>
+                <p class="login-sub">Sign in to save your preferences</p>
+                <div class="tab-row">
+                    <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+                    <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+                </div>
+                <form id="authForm" onsubmit="return handleAuth(event)">
+                    <div class="form-group" id="fg-name" style="display:none">
+                        <label>Full Name</label>
+                        <input type="text" id="auth-name" placeholder="Your name" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="auth-pass" placeholder="••••••••" autocomplete="current-password"
+                            required minlength="4">
+                    </div>
+                    <button type="submit" class="login-btn" id="auth-btn">Sign In</button>
+                    <div class="login-error" id="auth-error"></div>
+                </form>
+                <div class="login-guest">or <a onclick="guestLogin()">continue as guest</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LANDING -->
+    <section id="page-landing" class="page">
+        <div class="hero">
+            <p class="hero-eyebrow">AI-Powered Fragrance Discovery</p>
+            <h1>Find Your<br><span class="accent">Signature Scent</span></h1>
+            <p class="subtitle">Answer seven questions. Our algorithm analyzes your personality, mood, and lifestyle to
+                match you with the perfect fragrance from the world's finest houses.</p>
+            <div class="pillars">
+                <div class="pillar"><span>🧠</span> AI-Matched</div>
+                <div class="pillar-line"></div>
+                <div class="pillar"><span>☀️</span> Weather-Aware</div>
+                <div class="pillar-line"></div>
+                <div class="pillar"><span>✦</span> 100% Real Perfumes</div>
+            </div>
+            <button class="cta" onclick="showPage('quiz')">Discover My Fragrance <span
+                    class="cta-arrow">→</span></button>
+        </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="page-quiz" class="page">
+        <div class="quiz-wrap">
+            <div class="quiz-header">
+                <h1>Tell Us About <span class="accent">You</span></h1>
+                <p>Answer all seven questions below so we can find your perfect fragrance match</p>
+            </div>
+            <div id="quiz-sections"></div>
+            <div class="quiz-error" id="quiz-error"></div>
+            <div class="quiz-submit-row">
+                <button class="cta" id="quiz-submit" onclick="submitQuiz()">Find My Fragrances <span
+                        class="cta-arrow">→</span></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOADING -->
+    <section id="page-loading" class="page">
+        <div class="loader-wrap">
+            <div class="loader-ring-wrap">
+                <div class="loader-glow"></div>
+                <div class="loader-ring"></div>
+            </div>
+            <div class="loader-text" id="loader-text">Analyzing your personality...</div>
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="page-results" class="page">
+        <div class="results-wrap">
+            <div class="summary" id="summary"></div>
+            <div class="r-grid" id="r-grid"></div>
+            <div class="retake-row">
+                <button class="cta" onclick="retake()">↻ Take Quiz Again</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEEDBACK & QUERIES -->
+    <section id="page-feedback" class="page">
+        <div class="feedback-wrap">
+            <div class="feedback-card">
+                <h1>Feedback & <span class="accent">Queries</span></h1>
+                <p class="feedback-sub">We'd love to hear from you! Share your experience or ask us anything about
+                    VELOURA.</p>
+
+                <div class="feedback-tabs">
+                    <button class="fb-tab active" id="fb-tab-feedback" onclick="switchFbTab('feedback')">💬
+                        Feedback</button>
+                    <button class="fb-tab" id="fb-tab-query" onclick="switchFbTab('query')">❓ Ask a Query</button>
+                </div>
+
+                <!-- Feedback Form -->
+                <form id="feedback-form" class="fb-form" onsubmit="return submitFeedback(event)">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" id="fb-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="fb-email" placeholder="you@example.com" required>
+                    </div>
+
+                    <!-- Rating (feedback only) -->
+                    <div class="form-group" id="fb-rating-group">
+                        <label>Rate Your Experience</label>
+                        <div class="star-rating" id="star-rating">
+                            <span class="star" data-val="1" onclick="rateStar(1)">★</span>
+                            <span class="star" data-val="2" onclick="rateStar(2)">★</span>
+                            <span class="star" data-val="3" onclick="rateStar(3)">★</span>
+                            <span class="star" data-val="4" onclick="rateStar(4)">★</span>
+                            <span class="star" data-val="5" onclick="rateStar(5)">★</span>
+                        </div>
+                    </div>
+
+                    <!-- Category (query only) -->
+                    <div class="form-group" id="fb-category-group" style="display:none">
+                        <label>Query Category</label>
+                        <select id="fb-category">
+                            <option value="general">General Question</option>
+                            <option value="perfume">Perfume Recommendation</option>
+                            <option value="account">Account Related</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="feature">Feature Request</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="fb-message-label">Your Feedback</label>
+                        <textarea id="fb-message" rows="5" placeholder="Tell us what you think..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="cta" id="fb-submit-btn">Send Feedback <span
+                            class="cta-arrow">→</span></button>
+                    <div class="feedback-success" id="fb-success"></div>
+                </form>
+
+                <!-- Previous Submissions -->
+                <div class="fb-history" id="fb-history">
+                    <h3>Your Previous Submissions</h3>
+                    <div id="fb-history-list"></div>
+                </div>
+
+                <div class="fb-back-row">
+                    <button class="cta" onclick="showPage('landing')">← Back to Home</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,446 @@
+﻿// ========== STATE ==========
+let page = 'landing', step = 0, ui = {}, saved = [], fb = {}, res = [];
+let currentUser = null;
+let authMode = 'login';
+
+// ========== 24 REAL-WORLD PERFUMES ==========
+const perfumes = [
+    { id: 1, name: "Sauvage", brand: "Dior", scentFamily: "Fresh", topNotes: ["Bergamot", "Pepper"], middleNotes: ["Lavender", "Geranium"], baseNotes: ["Ambroxan", "Cedar"], mood: ["Confident", "Adventurous"], personality: ["Extrovert", "Ambivert"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 6500, priceMax: 10000, priceRange: "Luxury", description: "A bold, magnetic woody-fresh trail", emoji: "🌊" },
+    { id: 2, name: "Chanel No. 5", brand: "Chanel", scentFamily: "Floral", topNotes: ["Ylang-Ylang", "Neroli"], middleNotes: ["Rose", "Jasmine"], baseNotes: ["Sandalwood", "Vanilla"], mood: ["Romantic", "Calm"], personality: ["Introvert", "Creative"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Mild"], skinType: ["Dry", "Normal"], priceMin: 8000, priceMax: 14000, priceRange: "Luxury", description: "The world's most iconic floral aldehyde", emoji: "🌹" },
+    { id: 3, name: "Black Orchid", brand: "Tom Ford", scentFamily: "Oriental", topNotes: ["Black Truffle", "Bergamot"], middleNotes: ["Black Orchid", "Lotus Wood"], baseNotes: ["Patchouli", "Vanilla"], mood: ["Mysterious", "Confident"], personality: ["Introvert", "Creative"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 10000, priceMax: 15000, priceRange: "Luxury", description: "A luxurious dark floral of opulent depth", emoji: "🖤" },
+    { id: 4, name: "Acqua di Gio", brand: "Giorgio Armani", scentFamily: "Fresh", topNotes: ["Bergamot", "Neroli"], middleNotes: ["Sea Notes", "Rosemary"], baseNotes: ["Cedarwood", "Musk"], mood: ["Happy", "Calm"], personality: ["Ambivert", "Free Spirit"], occasion: ["Daily Wear", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 5500, priceMax: 9000, priceRange: "Premium", description: "A Mediterranean breeze in a bottle", emoji: "🏖️" },
+    { id: 5, name: "Black Opium", brand: "Yves Saint Laurent", scentFamily: "Gourmand", topNotes: ["Pink Pepper", "Orange Blossom"], middleNotes: ["Coffee", "Jasmine"], baseNotes: ["Vanilla", "Cedar"], mood: ["Confident", "Mysterious"], personality: ["Extrovert", "Creative"], occasion: ["Party", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Normal", "Dry"], priceMin: 6000, priceMax: 10000, priceRange: "Luxury", description: "An addictive coffee-vanilla adrenaline rush", emoji: "☕" },
+    { id: 6, name: "Cool Water", brand: "Davidoff", scentFamily: "Fresh", topNotes: ["Mint", "Green Notes", "Calone"], middleNotes: ["Lavender", "Jasmine"], baseNotes: ["Sandalwood", "Musk"], mood: ["Happy", "Adventurous"], personality: ["Extrovert", "Free Spirit"], occasion: ["Daily Wear", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 1500, priceMax: 2800, priceRange: "Mid-Range", description: "A fresh aquatic classic since 1988", emoji: "💧" },
+    { id: 7, name: "CK One", brand: "Calvin Klein", scentFamily: "Citrus", topNotes: ["Bergamot", "Lemon", "Pineapple"], middleNotes: ["Jasmine", "Rose", "Nutmeg"], baseNotes: ["Musk", "Cedar", "Amber"], mood: ["Happy", "Calm"], personality: ["Ambivert", "Free Spirit"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Normal", "Combination"], priceMin: 1800, priceMax: 3500, priceRange: "Mid-Range", description: "The original clean unisex fragrance", emoji: "✨" },
+    { id: 8, name: "English Pear & Freesia", brand: "Jo Malone", scentFamily: "Floral", topNotes: ["Pear", "Melon"], middleNotes: ["Freesia", "Rose"], baseNotes: ["Patchouli", "Musk"], mood: ["Calm", "Happy"], personality: ["Creative", "Introvert"], occasion: ["Office", "Daily Wear"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 5500, priceMax: 9500, priceRange: "Premium", description: "An elegant autumnal pear garden", emoji: "🍐" },
+    { id: 9, name: "Bloom", brand: "Gucci", scentFamily: "Floral", topNotes: ["Rangoon Creeper"], middleNotes: ["Tuberose", "Jasmine"], baseNotes: ["Sandalwood", "Musk"], mood: ["Romantic", "Calm"], personality: ["Introvert", "Creative"], occasion: ["Date Night", "Special Event"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 5000, priceMax: 8500, priceRange: "Premium", description: "A rich white floral garden in bloom", emoji: "🌸" },
+    { id: 10, name: "Pour Homme", brand: "Versace", scentFamily: "Citrus", topNotes: ["Lemon", "Bergamot", "Neroli"], middleNotes: ["Cedar", "Sage"], baseNotes: ["Amber", "Musk"], mood: ["Confident", "Happy"], personality: ["Extrovert", "Ambivert"], occasion: ["Office", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Normal"], priceMin: 3500, priceMax: 5500, priceRange: "Premium", description: "A refined Mediterranean citrus-amber elegance", emoji: "🍋" },
+    { id: 11, name: "Her", brand: "Burberry", scentFamily: "Gourmand", topNotes: ["Dark Berries", "Blackcurrant"], middleNotes: ["Jasmine", "Violet"], baseNotes: ["Musk", "Amber", "Cashmeran"], mood: ["Happy", "Romantic"], personality: ["Creative", "Ambivert"], occasion: ["Date Night", "Party"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 4500, priceMax: 7500, priceRange: "Premium", description: "A vibrant London berry-musk embrace", emoji: "🫐" },
+    { id: 12, name: "La Nuit de L'Homme", brand: "Yves Saint Laurent", scentFamily: "Woody", topNotes: ["Cardamom", "Bergamot"], middleNotes: ["Lavender", "Cedar"], baseNotes: ["Vetiver", "Coumarin"], mood: ["Romantic", "Mysterious"], personality: ["Introvert", "Analytical"], occasion: ["Date Night", "Special Event"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 5500, priceMax: 9000, priceRange: "Premium", description: "A seductive spiced-lavender evening scent", emoji: "🌙" },
+    { id: 13, name: "Bottled", brand: "Hugo Boss", scentFamily: "Woody", topNotes: ["Apple", "Citrus", "Plum"], middleNotes: ["Geranium", "Cinnamon"], baseNotes: ["Sandalwood", "Cedar", "Vetiver"], mood: ["Confident", "Calm"], personality: ["Analytical", "Ambivert"], occasion: ["Office", "Daily Wear"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Combination"], priceMin: 3000, priceMax: 5000, priceRange: "Mid-Range", description: "A confident fruity-woody boardroom classic", emoji: "🍎" },
+    { id: 14, name: "Voyage", brand: "Nautica", scentFamily: "Fresh", topNotes: ["Green Leaf", "Apple"], middleNotes: ["Mimosa", "Lotus"], baseNotes: ["Cedarwood", "Musk"], mood: ["Adventurous", "Happy"], personality: ["Free Spirit", "Extrovert"], occasion: ["Outdoor", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 1000, priceMax: 2200, priceRange: "Budget", description: "A fresh aquatic adventure for everyday wear", emoji: "⛵" },
+    { id: 15, name: "Coco Mademoiselle", brand: "Chanel", scentFamily: "Oriental", topNotes: ["Orange", "Bergamot"], middleNotes: ["Rose", "Jasmine", "Lychee"], baseNotes: ["Patchouli", "Vetiver", "Musk"], mood: ["Confident", "Romantic"], personality: ["Ambivert", "Creative"], occasion: ["Office", "Special Event"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 8000, priceMax: 13000, priceRange: "Luxury", description: "An irresistible oriental-fresh sophistication", emoji: "💎" },
+    { id: 16, name: "Miss Dior", brand: "Dior", scentFamily: "Floral", topNotes: ["Blood Orange", "Mandarin"], middleNotes: ["Rose", "Peony"], baseNotes: ["Patchouli", "Musk"], mood: ["Romantic", "Happy"], personality: ["Creative", "Free Spirit"], occasion: ["Date Night", "Daily Wear"], weather: ["Mild", "Hot & Humid"], skinType: ["Normal", "Combination"], priceMin: 6000, priceMax: 10000, priceRange: "Luxury", description: "A radiant rose-peony declaration of love", emoji: "🌺" },
+    { id: 17, name: "Luna Rossa Carbon", brand: "Prada", scentFamily: "Woody", topNotes: ["Bergamot", "Pepper"], middleNotes: ["Lavender", "Metallic Accord"], baseNotes: ["Ambroxan", "Patchouli"], mood: ["Confident", "Adventurous"], personality: ["Analytical", "Extrovert"], occasion: ["Office", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 5000, priceMax: 8500, priceRange: "Premium", description: "A modern metallic-woody powerhouse", emoji: "🏎️" },
+    { id: 18, name: "White Musk", brand: "The Body Shop", scentFamily: "Fresh", topNotes: ["Peach Nectar", "Lily"], middleNotes: ["Rose", "Jasmine"], baseNotes: ["White Musk", "Cashmeran"], mood: ["Calm", "Happy"], personality: ["Introvert", "Free Spirit"], occasion: ["Daily Wear", "Office"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 800, priceMax: 1600, priceRange: "Budget", description: "A clean, ethical everyday musk", emoji: "🤍" },
+    { id: 19, name: "Eros", brand: "Versace", scentFamily: "Oriental", topNotes: ["Mint", "Green Apple", "Lemon"], middleNotes: ["Tonka Bean", "Geranium"], baseNotes: ["Vanilla", "Vetiver", "Oakmoss"], mood: ["Confident", "Adventurous"], personality: ["Extrovert", "Ambivert"], occasion: ["Party", "Date Night"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Combination"], priceMin: 4000, priceMax: 7000, priceRange: "Premium", description: "A bold sweet-fresh god of love", emoji: "💙" },
+    { id: 20, name: "Bombshell", brand: "Victoria's Secret", scentFamily: "Floral", topNotes: ["Purple Passion Fruit", "Peony"], middleNotes: ["Vanilla Orchid", "Jasmine"], baseNotes: ["Musk", "Velvet Moss"], mood: ["Happy", "Confident"], personality: ["Extrovert", "Free Spirit"], occasion: ["Party", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Normal"], priceMin: 3000, priceMax: 5500, priceRange: "Mid-Range", description: "A playful fruity-floral bestseller", emoji: "💜" },
+    { id: 21, name: "Red", brand: "Wild Stone", scentFamily: "Oriental", topNotes: ["Bergamot", "Cinnamon"], middleNotes: ["Cedar", "Sandalwood"], baseNotes: ["Musk", "Vanilla"], mood: ["Confident", "Mysterious"], personality: ["Analytical", "Introvert"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 500, priceMax: 900, priceRange: "Budget", description: "A warm spicy oriental for everyday confidence", emoji: "🔴" },
+    { id: 22, name: "Zara Red Vanilla", brand: "Zara", scentFamily: "Gourmand", topNotes: ["Red Apple", "Bergamot"], middleNotes: ["Vanilla", "Cinnamon"], baseNotes: ["Tonka Bean", "Musk"], mood: ["Romantic", "Happy"], personality: ["Creative", "Free Spirit"], occasion: ["Date Night", "Daily Wear"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 1200, priceMax: 2200, priceRange: "Budget", description: "A cozy vanilla-apple sweetness at a steal", emoji: "🍎" },
+    { id: 23, name: "Light Blue", brand: "Dolce & Gabbana", scentFamily: "Citrus", topNotes: ["Sicilian Lemon", "Apple", "Bluebell"], middleNotes: ["Jasmine", "Bamboo", "Rose"], baseNotes: ["Cedarwood", "Amber", "Musk"], mood: ["Happy", "Adventurous"], personality: ["Free Spirit", "Extrovert"], occasion: ["Outdoor", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 4500, priceMax: 7500, priceRange: "Premium", description: "A sunny Sicilian citrus Mediterranean escape", emoji: "🍋" },
+    { id: 24, name: "Velvet Rose & Oud", brand: "Jo Malone", scentFamily: "Woody", topNotes: ["Clove", "Praline"], middleNotes: ["Damask Rose", "Oud"], baseNotes: ["Smoky Wood", "Cashmere"], mood: ["Mysterious", "Romantic"], personality: ["Introvert", "Analytical"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 9000, priceMax: 15000, priceRange: "Luxury", description: "A sumptuous rose-oud evening masterpiece", emoji: "🥀" }
+];
+
+// ========== QUIZ STEPS ==========
+const steps = [
+    {
+        key: "mood", title: "What's your current mood?", sub: "Choose the energy you want your scent to reflect", opts: [
+            { v: "Happy", e: "😄", l: "Happy" }, { v: "Romantic", e: "💕", l: "Romantic" },
+            { v: "Confident", e: "💪", l: "Confident" }, { v: "Calm", e: "🧘", l: "Calm" },
+            { v: "Adventurous", e: "🏔️", l: "Adventurous" }, { v: "Mysterious", e: "🌑", l: "Mysterious" }]
+    },
+    {
+        key: "personality", title: "How would you describe yourself?", sub: "Your personality shapes how a scent feels on you", opts: [
+            { v: "Introvert", e: "📖", l: "Introvert" }, { v: "Extrovert", e: "🎉", l: "Extrovert" },
+            { v: "Ambivert", e: "⚖️", l: "Ambivert" }, { v: "Creative", e: "🎨", l: "Creative" },
+            { v: "Analytical", e: "🔬", l: "Analytical" }, { v: "Free Spirit", e: "🦋", l: "Free Spirit" }]
+    },
+    {
+        key: "occasion", title: "Where will you wear this?", sub: "The right scent for the right moment", opts: [
+            { v: "Daily Wear", e: "☀️", l: "Daily Wear" }, { v: "Date Night", e: "🌹", l: "Date Night" },
+            { v: "Office", e: "💼", l: "Office" }, { v: "Party", e: "🎊", l: "Party" },
+            { v: "Outdoor", e: "🏕️", l: "Outdoor" }, { v: "Special Event", e: "👑", l: "Special Event" }]
+    },
+    {
+        key: "scentFamily", title: "Which scent world calls to you?", sub: "Each family has a distinct character", opts: [
+            { v: "Floral", e: "🌹", l: "Floral", d: "Rose, jasmine, peony" },
+            { v: "Woody", e: "🪵", l: "Woody", d: "Sandalwood, cedar, vetiver" },
+            { v: "Fresh", e: "💧", l: "Fresh", d: "Aquatic, green, ozonic" },
+            { v: "Oriental", e: "✦", l: "Oriental", d: "Amber, spice, incense" },
+            { v: "Citrus", e: "🍋", l: "Citrus", d: "Lemon, bergamot, orange" },
+            { v: "Gourmand", e: "🍫", l: "Gourmand", d: "Vanilla, coffee, caramel" }]
+    },
+    { key: "budget", title: "Your investment range", sub: "Great fragrance exists at every price point", type: "slider" },
+    {
+        key: "skinType", title: "Your skin type", sub: "Skin chemistry affects how fragrance develops on you", cols: 4, opts: [
+            { v: "Oily", e: "💧", l: "Oily", d: "Scents project more" }, { v: "Dry", e: "🏜️", l: "Dry", d: "Scents fade faster" },
+            { v: "Combination", e: "🔄", l: "Combination", d: "Balanced projection" }, { v: "Normal", e: "✅", l: "Normal", d: "Even wear time" }]
+    },
+    {
+        key: "weather", title: "Your typical climate", sub: "Temperature and humidity change how scent behaves", cols: 4, opts: [
+            { v: "Hot & Humid", e: "🥵", l: "Hot & Humid" }, { v: "Cool & Dry", e: "❄️", l: "Cool & Dry" },
+            { v: "Mild", e: "🌤️", l: "Mild" }, { v: "Rainy", e: "🌧️", l: "Rainy" }]
+    }
+];
+
+// ========== NAVIGATION ==========
+function showPage(p) {
+    document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+    document.getElementById('page-' + p).classList.add('active');
+    page = p;
+    if (p === 'quiz') renderQuiz();
+    if (p === 'loading') runLoader();
+    window.scrollTo(0, 0);
+}
+
+// ========== QUIZ (SINGLE PAGE) ==========
+function renderQuiz() {
+    const container = document.getElementById('quiz-sections');
+    let html = '';
+    steps.forEach((s, i) => {
+        html += `<div class="q-section">`;
+        html += `<div class="q-num">Question ${i + 1} of 7</div>`;
+        html += `<h2>${s.title}</h2>`;
+        html += `<p class="q-sub">${s.sub}</p>`;
+        if (s.type === 'slider') {
+            const v = ui.budget || 3000;
+            html += `<div class="budget-wrap">
+                        <div class="bv" id="bv">₹${Number(v).toLocaleString('en-IN')}</div>
+                        <div class="bt" id="bt">${tier(v)}</div>
+                        <input type="range" id="bslider" min="500" max="50000" step="500" value="${v}">
+                        <div class="range-labels"><span>₹500</span><span>₹50,000</span></div>
+                    </div>`;
+        } else {
+            html += `<div class="opts${s.cols === 4 ? ' col4' : ''}">`;
+            s.opts.forEach(o => {
+                const sel = ui[s.key] === o.v ? ' picked' : '';
+                html += `<div class="opt${sel}" onclick="pick('${s.key}','${o.v.replace(/'/g, "\\'")}',this)">
+                            <span class="oe">${o.e}</span>${o.l}${o.d ? `<span class="od">${o.d}</span>` : ''}
+                        </div>`;
+            });
+            html += '</div>';
+        }
+        html += '</div>';
+    });
+    container.innerHTML = html;
+    // Budget slider
+    if (!ui.budget) ui.budget = 3000;
+    const slider = document.getElementById('bslider');
+    if (slider) {
+        slider.addEventListener('input', function () {
+            ui.budget = +this.value;
+            document.getElementById('bv').textContent = '₹' + Number(this.value).toLocaleString('en-IN');
+            document.getElementById('bt').textContent = tier(this.value);
+        });
+    }
+    document.getElementById('quiz-error').textContent = '';
+}
+function tier(v) { v = +v; if (v <= 2000) return 'Budget Friendly'; if (v <= 6000) return 'Mid-Range'; if (v <= 15000) return 'Premium'; if (v <= 30000) return 'Luxury'; return 'Ultra Luxury' }
+function pick(k, v, el) { ui[k] = v; el.closest('.opts').querySelectorAll('.opt').forEach(c => c.classList.remove('picked')); el.classList.add('picked') }
+function submitQuiz() {
+    const required = ['mood', 'personality', 'occasion', 'scentFamily', 'skinType', 'weather'];
+    const missing = required.filter(k => !ui[k]);
+    if (missing.length > 0) {
+        document.getElementById('quiz-error').textContent = `Please answer all questions before submitting (${missing.length} remaining)`;
+        // Scroll to first unanswered
+        const idx = steps.findIndex(s => s.key === missing[0]);
+        const sections = document.querySelectorAll('.q-section');
+        if (sections[idx]) sections[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+    if (!ui.budget) ui.budget = 3000;
+    showPage('loading');
+}
+
+// ========== LOADER ==========
+function runLoader() {
+    const msgs = ["Analyzing your personality…", "Mapping scent profiles…", "Calculating compatibility…", "Curating your collection…"];
+    let i = 0; const el = document.getElementById('loader-text');
+    const iv = setInterval(() => { i++; if (i < msgs.length) el.textContent = msgs[i] }, 800);
+    setTimeout(() => { clearInterval(iv); calcResults(); showPage('results') }, 3400);
+}
+
+// ========== SCORING ==========
+function score(p) {
+    let s = 0;
+    if (p.mood.includes(ui.mood)) s += 25;
+    if (p.personality.includes(ui.personality)) s += 20;
+    if (p.scentFamily === ui.scentFamily) s += 30;
+    if (p.occasion.includes(ui.occasion)) s += 15;
+    if (p.weather.includes(ui.weather)) s += 10;
+    if (p.skinType.includes(ui.skinType)) s += 10;
+    if (ui.budget >= p.priceMin) s += 15;
+    s += (fb[p.id] || 0);
+    return Math.min(100, Math.max(0, Math.round(s / 125 * 100)));
+}
+function calcResults() {
+    res = perfumes.map(p => ({ ...p, match: score(p) })).sort((a, b) => b.match - a.match).slice(0, 6);
+    renderResults();
+}
+
+// ========== RESULTS ==========
+function renderResults() {
+    document.getElementById('summary').innerHTML = `Based on your <strong>${ui.mood}</strong> mood, <strong>${ui.personality}</strong> personality, for <strong>${ui.occasion}</strong> — here are your top matches`;
+    let h = '';
+    res.forEach((p, i) => {
+        const sv = saved.includes(p.id), fw = fb[p.id] || 0;
+        const sf = 'sf-' + p.scentFamily.toLowerCase();
+        h += `<div class="p-card" style="animation-delay:${i * .08}s">
+      <div class="p-head"><span class="p-emoji">${p.emoji}</span><div><span class="p-match">${p.match}%</span><span class="p-match-label">match</span></div></div>
+      <div class="p-name">${p.name}</div>
+      <div class="p-brand">${p.brand}</div>
+      <span class="s-badge ${sf}">${p.scentFamily}</span>
+      <div class="notes-row"><div class="notes-lbl">Top Notes</div><div class="notes-pills">${p.topNotes.map(n => `<span class="n-pill">${n}</span>`).join('')}</div></div>
+      <div class="notes-row"><div class="notes-lbl">Heart Notes</div><div class="notes-pills">${p.middleNotes.map(n => `<span class="n-pill">${n}</span>`).join('')}</div></div>
+      <div class="notes-row"><div class="notes-lbl">Base Notes</div><div class="notes-pills">${p.baseNotes.map(n => `<span class="n-pill">${n}</span>`).join('')}</div></div>
+      <div class="p-price">₹${p.priceMin.toLocaleString('en-IN')} – ₹${p.priceMax.toLocaleString('en-IN')}  ·  ${p.priceRange}</div>
+      <div class="occ-tags">${p.occasion.map(o => `<span class="occ-tag">${o}</span>`).join('')}</div>
+      <div class="p-actions">
+        <button id="sv-${p.id}" class="${sv ? 'saved' : ''}" onclick="doSave(${p.id})">💾 ${sv ? 'Saved' : 'Save'}</button>
+        <button id="lk-${p.id}" class="${fw > 0 ? 'liked' : ''}" onclick="doLike(${p.id})">👍</button>
+        <button id="dl-${p.id}" class="${fw < 0 ? 'disliked' : ''}" onclick="doDis(${p.id})">👎</button>
+      </div>
+    </div>`;
+    });
+    document.getElementById('r-grid').innerHTML = h;
+}
+
+// ========== FEEDBACK ==========
+function doSave(id) { const i = saved.indexOf(id); if (i > -1) saved.splice(i, 1); else saved.push(id); const b = document.getElementById('sv-' + id); b.classList.toggle('saved'); b.textContent = saved.includes(id) ? '💾 Saved' : '💾 Save'; toast(saved.includes(id) ? 'Added to your collection 💾' : 'Removed from collection') }
+function doLike(id) { fb[id] = 5; document.getElementById('lk-' + id).classList.add('liked'); document.getElementById('dl-' + id).classList.remove('disliked'); toast('Preference saved — results improved 🎯') }
+function doDis(id) { fb[id] = -10; document.getElementById('dl-' + id).classList.add('disliked'); document.getElementById('lk-' + id).classList.remove('liked'); toast("We'll adjust your recommendations 🎯") }
+function toast(m) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 3200) }
+function retake() { ui = {}; res = []; showPage('landing') }
+
+// ========== THEME TOGGLE ==========
+function toggleTheme() {
+    const html = document.documentElement;
+    const isLight = html.getAttribute('data-theme') === 'light';
+    html.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    document.getElementById('themeToggle').classList.toggle('light', !isLight);
+    document.getElementById('toggleBall').textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('veloura_theme', isLight ? 'dark' : 'light');
+}
+
+// ========== AUTH SYSTEM ==========
+function switchTab(mode) {
+    authMode = mode;
+    document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+    document.getElementById('tab-signup').classList.toggle('active', mode === 'signup');
+    document.getElementById('fg-name').style.display = mode === 'signup' ? 'block' : 'none';
+    document.getElementById('auth-btn').textContent = mode === 'signup' ? 'Create Account' : 'Sign In';
+    document.getElementById('auth-error').textContent = '';
+}
+
+function handleAuth(e) {
+    e.preventDefault();
+    const email = document.getElementById('auth-email').value.trim();
+    const pass = document.getElementById('auth-pass').value;
+    const name = document.getElementById('auth-name').value.trim();
+    const errEl = document.getElementById('auth-error');
+    errEl.textContent = '';
+
+    if (authMode === 'signup') {
+        if (!name) { errEl.textContent = 'Please enter your name'; return false; }
+        const users = JSON.parse(localStorage.getItem('veloura_users') || '{}');
+        if (users[email]) { errEl.textContent = 'Account already exists — sign in instead'; return false; }
+        users[email] = { name, pass, saved: [], fb: {} };
+        localStorage.setItem('veloura_users', JSON.stringify(users));
+        loginAs(email, name, [], {});
+        toast('Account created — welcome to VELOURA! ✨');
+    } else {
+        const users = JSON.parse(localStorage.getItem('veloura_users') || '{}');
+        if (!users[email] || users[email].pass !== pass) { errEl.textContent = 'Invalid email or password'; return false; }
+        loginAs(email, users[email].name, users[email].saved || [], users[email].fb || {});
+        toast('Welcome back, ' + users[email].name + '! ✨');
+    }
+    return false;
+}
+
+function loginAs(email, name, sv, feedback) {
+    currentUser = { email, name };
+    saved = sv;
+    fb = feedback;
+    localStorage.setItem('veloura_session', JSON.stringify(currentUser));
+    updateNavUser();
+    showPage('landing');
+}
+
+function guestLogin() {
+    currentUser = { email: 'guest', name: 'Guest' };
+    localStorage.setItem('veloura_session', JSON.stringify(currentUser));
+    updateNavUser();
+    showPage('landing');
+    toast('Browsing as guest — sign up to save preferences');
+}
+
+function doLogout() {
+    if (!confirm('Sign out of VELOURA?')) return;
+    saveUserData();
+    currentUser = null;
+    localStorage.removeItem('veloura_session');
+    saved = []; fb = {};
+    document.getElementById('navUser').style.display = 'none';
+    showPage('login');
+    toast('Signed out successfully');
+}
+
+function updateNavUser() {
+    const nu = document.getElementById('navUser');
+    if (currentUser) {
+        nu.style.display = 'flex';
+        document.getElementById('navAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+        document.getElementById('navName').textContent = currentUser.name;
+    } else {
+        nu.style.display = 'none';
+    }
+}
+
+function saveUserData() {
+    if (!currentUser || currentUser.email === 'guest') return;
+    const users = JSON.parse(localStorage.getItem('veloura_users') || '{}');
+    if (users[currentUser.email]) {
+        users[currentUser.email].saved = saved;
+        users[currentUser.email].fb = fb;
+        localStorage.setItem('veloura_users', JSON.stringify(users));
+    }
+}
+
+// Save data on feedback actions
+const origSave = doSave, origLike = doLike, origDis = doDis;
+doSave = function (id) { origSave(id); saveUserData(); };
+doLike = function (id) { origLike(id); saveUserData(); };
+doDis = function (id) { origDis(id); saveUserData(); };
+
+// ========== INIT ==========
+(function init() {
+    // Restore theme
+    const savedTheme = localStorage.getItem('veloura_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (savedTheme === 'light') {
+        document.getElementById('themeToggle').classList.add('light');
+        document.getElementById('toggleBall').textContent = '☀️';
+    }
+    // Auto-login from session
+    const session = JSON.parse(localStorage.getItem('veloura_session') || 'null');
+    if (session) {
+        currentUser = session;
+        if (session.email !== 'guest') {
+            const users = JSON.parse(localStorage.getItem('veloura_users') || '{}');
+            if (users[session.email]) { saved = users[session.email].saved || []; fb = users[session.email].fb || {}; }
+        }
+        updateNavUser();
+        showPage('landing');
+    } else {
+        showPage('login');
+    }
+})();
+
+// ========== NAV SCROLL ==========
+window.addEventListener('scroll', () => { document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40) });
+
+// ========== FEEDBACK & QUERIES ==========
+let fbMode = 'feedback';
+let fbRating = 0;
+
+function switchFbTab(mode) {
+    fbMode = mode;
+    document.getElementById('fb-tab-feedback').classList.toggle('active', mode === 'feedback');
+    document.getElementById('fb-tab-query').classList.toggle('active', mode === 'query');
+    document.getElementById('fb-rating-group').style.display = mode === 'feedback' ? 'block' : 'none';
+    document.getElementById('fb-category-group').style.display = mode === 'query' ? 'block' : 'none';
+    document.getElementById('fb-message-label').textContent = mode === 'feedback' ? 'Your Feedback' : 'Your Question';
+    document.getElementById('fb-message').placeholder = mode === 'feedback' ? 'Tell us what you think...' : 'What would you like to know?';
+    document.getElementById('fb-submit-btn').innerHTML = mode === 'feedback' ? 'Send Feedback <span class="cta-arrow">→</span>' : 'Submit Query <span class="cta-arrow">→</span>';
+    document.getElementById('fb-success').textContent = '';
+}
+
+function rateStar(val) {
+    fbRating = val;
+    document.querySelectorAll('.star-rating .star').forEach(s => {
+        s.classList.toggle('active', +s.dataset.val <= val);
+    });
+}
+
+function submitFeedback(e) {
+    e.preventDefault();
+    const name = document.getElementById('fb-name').value.trim();
+    const email = document.getElementById('fb-email').value.trim();
+    const message = document.getElementById('fb-message').value.trim();
+
+    if (!name || !email || !message) return false;
+    if (fbMode === 'feedback' && fbRating === 0) {
+        document.getElementById('fb-success').textContent = 'Please select a star rating';
+        document.getElementById('fb-success').style.color = '#f87171';
+        return false;
+    }
+
+    const entry = {
+        type: fbMode,
+        name,
+        email,
+        message,
+        rating: fbMode === 'feedback' ? fbRating : null,
+        category: fbMode === 'query' ? document.getElementById('fb-category').value : null,
+        date: new Date().toISOString()
+    };
+
+    // Save to localStorage
+    const history = JSON.parse(localStorage.getItem('veloura_feedback') || '[]');
+    history.unshift(entry);
+    localStorage.setItem('veloura_feedback', JSON.stringify(history));
+
+    // Show success
+    const successEl = document.getElementById('fb-success');
+    successEl.style.color = '';
+    successEl.textContent = fbMode === 'feedback'
+        ? '✨ Thank you for your feedback! We truly appreciate it.'
+        : '✨ Your query has been submitted! We\'ll get back to you soon.';
+
+    // Reset form
+    document.getElementById('fb-message').value = '';
+    fbRating = 0;
+    document.querySelectorAll('.star-rating .star').forEach(s => s.classList.remove('active'));
+
+    // Refresh history
+    renderFbHistory();
+    toast(fbMode === 'feedback' ? 'Feedback sent! 💬' : 'Query submitted! ❓');
+
+    return false;
+}
+
+function renderFbHistory() {
+    const history = JSON.parse(localStorage.getItem('veloura_feedback') || '[]');
+    const list = document.getElementById('fb-history-list');
+    const container = document.getElementById('fb-history');
+
+    if (history.length === 0) {
+        container.style.display = 'none';
+        return;
+    }
+    container.style.display = 'block';
+
+    list.innerHTML = history.slice(0, 10).map(item => {
+        const d = new Date(item.date);
+        const dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        const typeClass = item.type === 'query' ? 'query' : '';
+        const stars = item.rating ? '<div class="fb-item-stars">' + '★'.repeat(item.rating) + '☆'.repeat(5 - item.rating) + '</div>' : '';
+        const cat = item.category ? ` · ${item.category}` : '';
+        return `<div class="fb-item">
+                    <div class="fb-item-header">
+                        <span class="fb-item-type ${typeClass}">${item.type}${cat}</span>
+                        <span class="fb-item-date">${dateStr}</span>
+                    </div>
+                    ${stars}
+                    <div class="fb-item-msg">${item.message}</div>
+                </div>`;
+    }).join('');
+}
+
+// Auto-fill feedback form with logged-in user info
+function prefillFeedbackForm() {
+    if (currentUser && currentUser.email !== 'guest') {
+        const nameEl = document.getElementById('fb-name');
+        const emailEl = document.getElementById('fb-email');
+        if (nameEl && !nameEl.value) nameEl.value = currentUser.name;
+        if (emailEl && !emailEl.value) emailEl.value = currentUser.email;
+    }
+    renderFbHistory();
+}
+
+// Patch showPage to handle feedback
+const _origShowPage = showPage;
+showPage = function (p) {
+    _origShowPage(p);
+    if (p === 'feedback') prefillFeedbackForm();
+};
