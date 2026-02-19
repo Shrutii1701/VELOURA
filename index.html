@@ -23,21 +23,32 @@
     </div>
     <div class="grain"></div>
 
-    <!-- FLOATING PERFUME BOTTLES -->
-    <div class="float-bottle fb-1">🧴</div>
-    <div class="float-bottle fb-2">🌺</div>
-    <div class="float-bottle fb-3">🌸</div>
-    <div class="float-bottle fb-4">🧪</div>
-    <div class="float-bottle fb-5">🌹</div>
-    <div class="float-bottle fb-6">✨</div>
-    <div class="float-bottle fb-7">🌼</div>
-    <div class="float-bottle fb-8">💎</div>
+    <!-- FLOATING ELEMENTS -->
+    <div class="float-bottle fb-1">🧖🏻‍♀️</div>
+    <div class="float-bottle fb-2">🫧</div>
+    <div class="float-bottle fb-3">🧴</div>
+    <div class="float-bottle fb-4">💕</div>
+    <div class="float-bottle fb-5">🎀</div>
+    <div class="float-bottle fb-6">🪞</div>
+    <div class="float-bottle fb-7">💄</div>
+    <div class="float-bottle fb-8">🦢</div>
+    <div class="float-bottle fb-9">⭐</div>
+    <div class="float-bottle fb-10">🫶🏻</div>
+    <div class="float-bottle fb-11">✨</div>
+    <div class="float-bottle fb-12">🌷</div>
+    <div class="float-bottle fb-13">🌹</div>
+    <div class="float-bottle fb-14">🌸</div>
+    <div class="float-bottle fb-15">🌺</div>
 
     <!-- NAV -->
     <nav class="nav" id="mainNav">
         <div class="brand">
             <div class="brand-icon">V</div>
             <span class="brand-name">VELOURA</span>
+        </div>
+        <div class="nav-links">
+            <button class="nav-link" onclick="showPage('landing')">Home</button>
+            <button class="nav-link" onclick="showPage('explore')">Directory</button>
         </div>
         <div class="nav-right">
             <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
@@ -78,7 +89,11 @@
                     <button type="submit" class="login-btn" id="auth-btn">Sign In</button>
                     <div class="login-error" id="auth-error"></div>
                 </form>
-                <div class="login-guest">or <a onclick="guestLogin()">continue as guest</a></div>
+                <div class="login-guest">
+                    or <a onclick="guestLogin()">continue as guest</a>
+                    <span class="sep">•</span>
+                    <a onclick="startDemo()" class="demo-link">⚡ Try Demo</a>
+                </div>
             </div>
         </div>
     </section>
@@ -105,15 +120,16 @@
     <!-- QUIZ -->
     <section id="page-quiz" class="page">
         <div class="quiz-wrap">
-            <div class="quiz-header">
-                <h1>Tell Us About <span class="accent">You</span></h1>
-                <p>Answer all seven questions below so we can find your perfect fragrance match</p>
+            <div class="quiz-progress-container">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
             </div>
-            <div id="quiz-sections"></div>
+
+            <div id="quiz-sections">
+                <!-- JS RENDEERS STEPS HERE -->
+            </div>
             <div class="quiz-error" id="quiz-error"></div>
-            <div class="quiz-submit-row">
-                <button class="cta" id="quiz-submit" onclick="submitQuiz()">Find My Fragrances <span
-                        class="cta-arrow">→</span></button>
+            <div class="quiz-submit-row" id="quiz-result-btn" style="display:none">
+                <button class="cta" onclick="submitQuiz()">Find Matches ✨</button>
             </div>
         </div>
     </section>
@@ -135,7 +151,61 @@
             <div class="summary" id="summary"></div>
             <div class="r-grid" id="r-grid"></div>
             <div class="retake-row">
-                <button class="cta" onclick="retake()">↻ Take Quiz Again</button>
+                <button class="cta secondary" onclick="showProfile()">✨ View My Scent Personality</button>
+                <button class="cta-outline" onclick="retake()">↻ Retake Quiz</button>
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- EXPLORE -->
+    <section id="page-explore" class="page">
+        <div class="explore-wrap">
+            <div class="explore-header">
+                <h2>Fragrance Directory</h2>
+                <p>Browse our curated collection of 100% authentic perfumes.</p>
+            </div>
+            <div class="explore-controls">
+                <input type="text" id="explore-search" placeholder="Search perfumes..." oninput="filterExplore()">
+                <select id="explore-family" onchange="filterExplore()">
+                    <option value="">All Families</option>
+                    <option value="Floral">Floral</option>
+                    <option value="Woody">Woody</option>
+                    <option value="Fresh">Fresh</option>
+                    <option value="Oriental">Oriental</option>
+                    <option value="Gourmand">Gourmand</option>
+                </select>
+                <select id="explore-price" onchange="filterExplore()">
+                    <option value="">Any Price</option>
+                    <option value="low">Under ₹5,000</option>
+                    <option value="mid">₹5,000 - ₹15,000</option>
+                    <option value="high">Over ₹15,000</option>
+                </select>
+            </div>
+            <div class="r-grid" id="explore-grid"></div>
+            <button id="compare-fab" class="compare-fab hidden" onclick="showPage('compare')">Compare (0)</button>
+        </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section id="page-compare" class="page">
+        <div class="compare-wrap">
+            <button class="back-btn" onclick="showPage('explore')">← Back to Directory</button>
+            <h2>Compare Perfumes</h2>
+            <div class="compare-grid" id="compare-grid"></div>
+        </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="page-profile" class="page">
+        <div class="profile-wrap">
+            <button class="back-btn" onclick="showPage('results')">← Back to Results</button>
+            <div class="profile-card" id="profile-card">
+                <!-- Injected via JS -->
+            </div>
+            <div class="share-row">
+                <button class="cta" onclick="shareProfile()">Share Result 📤</button>
             </div>
         </div>
     </section>
