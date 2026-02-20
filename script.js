@@ -35,8 +35,42 @@ const perfumes = [
 let userCurrency = localStorage.getItem('veloura_cur') || 'INR';
 const currencyConfig = {
     INR: { rate: 1, symbol: '₹', locale: 'en-IN' },
-    USD: { rate: 0.012, symbol: '$', locale: 'en-US' }
+    USD: { rate: 0.012, symbol: '$', locale: 'en-US' },
+    EUR: { rate: 0.011, symbol: '€', locale: 'de-DE' },
+    CNY: { rate: 0.086, symbol: '¥', locale: 'zh-CN' },
+    JPY: { rate: 1.81, symbol: '¥', locale: 'ja-JP' }
 };
+
+function toggleCurDropdown() {
+    document.getElementById('curOptions').classList.toggle('active');
+}
+
+function selectCurrency(cur) {
+    userCurrency = cur;
+    localStorage.setItem('veloura_cur', cur);
+    updateCurDisplay();
+    document.getElementById('curOptions').classList.remove('active');
+
+    if (page === 'quiz') renderQuiz();
+    if (page === 'results') renderResults();
+    if (page === 'explore') filterExplore();
+
+    toast(`Currency changed to ${cur} ${currencyConfig[cur].symbol}`);
+}
+
+function updateCurDisplay() {
+    const cfg = currencyConfig[userCurrency];
+    const el = document.getElementById('curSelectedText');
+    if (el) el.textContent = `${cfg.symbol} ${userCurrency}`;
+}
+
+// Close dropdown on click outside
+window.addEventListener('click', (e) => {
+    if (!e.target.closest('#curSelectContainer')) {
+        const opt = document.getElementById('curOptions');
+        if (opt) opt.classList.remove('active');
+    }
+});
 
 function formatPrice(amt) {
     const cfg = currencyConfig[userCurrency];
@@ -477,8 +511,7 @@ doDis = function (id) { origDis(id); saveUserData(); };
 // ========== INIT ==========
 (async function init() {
     // Restore currency selection
-    const curEl = document.getElementById('curSelect');
-    if (curEl) curEl.value = userCurrency;
+    updateCurDisplay();
 
     // Restore theme
     const savedTheme = localStorage.getItem('veloura_theme') || 'dark';

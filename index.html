@@ -36,9 +36,12 @@
     <div class="float-bottle fb-10">🫶🏻</div>
     <div class="float-bottle fb-11">✨</div>
     <div class="float-bottle fb-12">🌷</div>
-    <div class="float-bottle fb-13">🌹</div>
-    <div class="float-bottle fb-14">🌸</div>
-    <div class="float-bottle fb-15">🌺</div>
+    <div class="float-bottle fb-13">🌴</div>
+    <div class="float-bottle fb-14">🌹</div>
+    <div class="float-bottle fb-15">🌸</div>
+    <div class="float-bottle fb-16">🌺</div>
+    <div class="float-bottle fb-17">🥥</div>
+
 
     <!-- NAV -->
     <nav class="nav" id="mainNav">
@@ -51,10 +54,19 @@
             <button class="nav-link" onclick="showPage('explore')">Directory</button>
         </div>
         <div class="nav-right">
-            <select class="cur-select" id="curSelect" onchange="changeCurrency(this.value)">
-                <option value="INR">₹ INR</option>
-                <option value="USD">$ USD</option>
-            </select>
+            <div class="custom-cur-select" id="curSelectContainer">
+                <div class="cur-selected" onclick="toggleCurDropdown()">
+                    <span id="curSelectedText">₹ INR</span>
+                    <span class="chevron">▾</span>
+                </div>
+                <div class="cur-options" id="curOptions">
+                    <div class="cur-option" onclick="selectCurrency('USD')">$ USD</div>
+                    <div class="cur-option" onclick="selectCurrency('EUR')">€ EUR</div>
+                    <div class="cur-option" onclick="selectCurrency('CNY')">¥ CNY</div>
+                    <div class="cur-option" onclick="selectCurrency('JPY')">¥ JPY</div>
+                    <div class="cur-option" onclick="selectCurrency('INR')">₹ INR</div>
+                </div>
+            </div>
             <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
                 <div class="toggle-ball" id="toggleBall">🌙</div>
             </div>
