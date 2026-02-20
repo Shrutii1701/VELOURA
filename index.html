@@ -51,6 +51,10 @@
             <button class="nav-link" onclick="showPage('explore')">Directory</button>
         </div>
         <div class="nav-right">
+            <select class="cur-select" id="curSelect" onchange="changeCurrency(this.value)">
+                <option value="INR">₹ INR</option>
+                <option value="USD">$ USD</option>
+            </select>
             <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
                 <div class="toggle-ball" id="toggleBall">🌙</div>
             </div>

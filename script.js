@@ -5,33 +5,53 @@ let authMode = 'login';
 
 // ========== 24 REAL-WORLD PERFUMES ==========
 const perfumes = [
-    { id: 1, name: "Sauvage", brand: "Dior", gender: ["Male", "Unisex"], scentFamily: "Fresh", topNotes: ["Bergamot", "Pepper"], middleNotes: ["Lavender", "Geranium"], baseNotes: ["Ambroxan", "Cedar"], mood: ["Confident", "Adventurous"], personality: ["Extrovert", "Ambivert"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 6500, priceMax: 10000, priceRange: "Luxury", description: "A bold, magnetic woody-fresh trail", emoji: "🌊" },
-    { id: 2, name: "Chanel No. 5", brand: "Chanel", gender: ["Female"], scentFamily: "Floral", topNotes: ["Ylang-Ylang", "Neroli"], middleNotes: ["Rose", "Jasmine"], baseNotes: ["Sandalwood", "Vanilla"], mood: ["Romantic", "Calm"], personality: ["Introvert", "Creative"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Mild"], skinType: ["Dry", "Normal"], priceMin: 8000, priceMax: 14000, priceRange: "Luxury", description: "The world's most iconic floral aldehyde", emoji: "🌹" },
-    { id: 3, name: "Black Orchid", brand: "Tom Ford", gender: ["Unisex", "Female"], scentFamily: "Oriental", topNotes: ["Black Truffle", "Bergamot"], middleNotes: ["Black Orchid", "Lotus Wood"], baseNotes: ["Patchouli", "Vanilla"], mood: ["Mysterious", "Confident"], personality: ["Introvert", "Creative"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 10000, priceMax: 15000, priceRange: "Luxury", description: "A luxurious dark floral of opulent depth", emoji: "🖤" },
-    { id: 4, name: "Acqua di Gio", brand: "Giorgio Armani", gender: ["Male", "Unisex"], scentFamily: "Fresh", topNotes: ["Bergamot", "Neroli"], middleNotes: ["Sea Notes", "Rosemary"], baseNotes: ["Cedarwood", "Musk"], mood: ["Happy", "Calm"], personality: ["Ambivert", "Free Spirit"], occasion: ["Daily Wear", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 5500, priceMax: 9000, priceRange: "Premium", description: "A Mediterranean breeze in a bottle", emoji: "🏖️" },
-    { id: 5, name: "Black Opium", brand: "Yves Saint Laurent", gender: ["Female"], scentFamily: "Gourmand", topNotes: ["Pink Pepper", "Orange Blossom"], middleNotes: ["Coffee", "Jasmine"], baseNotes: ["Vanilla", "Cedar"], mood: ["Confident", "Mysterious"], personality: ["Extrovert", "Creative"], occasion: ["Party", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Normal", "Dry"], priceMin: 6000, priceMax: 10000, priceRange: "Luxury", description: "An addictive coffee-vanilla adrenaline rush", emoji: "☕" },
-    { id: 6, name: "Cool Water", brand: "Davidoff", gender: ["Male"], scentFamily: "Fresh", topNotes: ["Mint", "Green Notes", "Calone"], middleNotes: ["Lavender", "Jasmine"], baseNotes: ["Sandalwood", "Musk"], mood: ["Happy", "Adventurous"], personality: ["Extrovert", "Free Spirit"], occasion: ["Daily Wear", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 1500, priceMax: 2800, priceRange: "Mid-Range", description: "A fresh aquatic classic since 1988", emoji: "💧" },
-    { id: 7, name: "CK One", brand: "Calvin Klein", gender: ["Unisex"], scentFamily: "Citrus", topNotes: ["Bergamot", "Lemon", "Pineapple"], middleNotes: ["Jasmine", "Rose", "Nutmeg"], baseNotes: ["Musk", "Cedar", "Amber"], mood: ["Happy", "Calm"], personality: ["Ambivert", "Free Spirit"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Normal", "Combination"], priceMin: 1800, priceMax: 3500, priceRange: "Mid-Range", description: "The original clean unisex fragrance", emoji: "✨" },
-    { id: 8, name: "English Pear & Freesia", brand: "Jo Malone", gender: ["Female", "Unisex"], scentFamily: "Floral", topNotes: ["Pear", "Melon"], middleNotes: ["Freesia", "Rose"], baseNotes: ["Patchouli", "Musk"], mood: ["Calm", "Happy"], personality: ["Creative", "Introvert"], occasion: ["Office", "Daily Wear"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 5500, priceMax: 9500, priceRange: "Premium", description: "An elegant autumnal pear garden", emoji: "🍐" },
-    { id: 9, name: "Bloom", brand: "Gucci", gender: ["Female"], scentFamily: "Floral", topNotes: ["Rangoon Creeper"], middleNotes: ["Tuberose", "Jasmine"], baseNotes: ["Sandalwood", "Musk"], mood: ["Romantic", "Calm"], personality: ["Introvert", "Creative"], occasion: ["Date Night", "Special Event"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 5000, priceMax: 8500, priceRange: "Premium", description: "A rich white floral garden in bloom", emoji: "🌸" },
-    { id: 10, name: "Pour Homme", brand: "Versace", gender: ["Male"], scentFamily: "Citrus", topNotes: ["Lemon", "Bergamot", "Neroli"], middleNotes: ["Cedar", "Sage"], baseNotes: ["Amber", "Musk"], mood: ["Confident", "Happy"], personality: ["Extrovert", "Ambivert"], occasion: ["Office", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Normal"], priceMin: 3500, priceMax: 5500, priceRange: "Premium", description: "A refined Mediterranean citrus-amber elegance", emoji: "🍋" },
-    { id: 11, name: "Her", brand: "Burberry", gender: ["Female"], scentFamily: "Gourmand", topNotes: ["Dark Berries", "Blackcurrant"], middleNotes: ["Jasmine", "Violet"], baseNotes: ["Musk", "Amber", "Cashmeran"], mood: ["Happy", "Romantic"], personality: ["Creative", "Ambivert"], occasion: ["Date Night", "Party"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 4500, priceMax: 7500, priceRange: "Premium", description: "A vibrant London berry-musk embrace", emoji: "🫐" },
-    { id: 12, name: "La Nuit de L'Homme", brand: "Yves Saint Laurent", gender: ["Male"], scentFamily: "Woody", topNotes: ["Cardamom", "Bergamot"], middleNotes: ["Lavender", "Cedar"], baseNotes: ["Vetiver", "Coumarin"], mood: ["Romantic", "Mysterious"], personality: ["Introvert", "Analytical"], occasion: ["Date Night", "Special Event"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 5500, priceMax: 9000, priceRange: "Premium", description: "A seductive spiced-lavender evening scent", emoji: "🌙" },
-    { id: 13, name: "Bottled", brand: "Hugo Boss", gender: ["Male"], scentFamily: "Woody", topNotes: ["Apple", "Citrus", "Plum"], middleNotes: ["Geranium", "Cinnamon"], baseNotes: ["Sandalwood", "Cedar", "Vetiver"], mood: ["Confident", "Calm"], personality: ["Analytical", "Ambivert"], occasion: ["Office", "Daily Wear"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Combination"], priceMin: 3000, priceMax: 5000, priceRange: "Mid-Range", description: "A confident fruity-woody boardroom classic", emoji: "🍎" },
-    { id: 14, name: "Voyage", brand: "Nautica", gender: ["Male", "Unisex"], scentFamily: "Fresh", topNotes: ["Green Leaf", "Apple"], middleNotes: ["Mimosa", "Lotus"], baseNotes: ["Cedarwood", "Musk"], mood: ["Adventurous", "Happy"], personality: ["Free Spirit", "Extrovert"], occasion: ["Outdoor", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 1000, priceMax: 2200, priceRange: "Budget", description: "A fresh aquatic adventure for everyday wear", emoji: "⛵" },
-    { id: 15, name: "Coco Mademoiselle", brand: "Chanel", gender: ["Female"], scentFamily: "Oriental", topNotes: ["Orange", "Bergamot"], middleNotes: ["Rose", "Jasmine", "Lychee"], baseNotes: ["Patchouli", "Vetiver", "Musk"], mood: ["Confident", "Romantic"], personality: ["Ambivert", "Creative"], occasion: ["Office", "Special Event"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 8000, priceMax: 13000, priceRange: "Luxury", description: "An irresistible oriental-fresh sophistication", emoji: "💎" },
-    { id: 16, name: "Miss Dior", brand: "Dior", gender: ["Female"], scentFamily: "Floral", topNotes: ["Blood Orange", "Mandarin"], middleNotes: ["Rose", "Peony"], baseNotes: ["Patchouli", "Musk"], mood: ["Romantic", "Happy"], personality: ["Creative", "Free Spirit"], occasion: ["Date Night", "Daily Wear"], weather: ["Mild", "Hot & Humid"], skinType: ["Normal", "Combination"], priceMin: 6000, priceMax: 10000, priceRange: "Luxury", description: "A radiant rose-peony declaration of love", emoji: "🌺" },
-    { id: 17, name: "Luna Rossa Carbon", brand: "Prada", gender: ["Male"], scentFamily: "Woody", topNotes: ["Bergamot", "Pepper"], middleNotes: ["Lavender", "Metallic Accord"], baseNotes: ["Ambroxan", "Patchouli"], mood: ["Confident", "Adventurous"], personality: ["Analytical", "Extrovert"], occasion: ["Office", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 5000, priceMax: 8500, priceRange: "Premium", description: "A modern metallic-woody powerhouse", emoji: "🏎️" },
-    { id: 18, name: "White Musk", brand: "The Body Shop", gender: ["Unisex", "Female"], scentFamily: "Fresh", topNotes: ["Peach Nectar", "Lily"], middleNotes: ["Rose", "Jasmine"], baseNotes: ["White Musk", "Cashmeran"], mood: ["Calm", "Happy"], personality: ["Introvert", "Free Spirit"], occasion: ["Daily Wear", "Office"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 800, priceMax: 1600, priceRange: "Budget", description: "A clean, ethical everyday musk", emoji: "🤍" },
-    { id: 19, name: "Eros", brand: "Versace", gender: ["Male"], scentFamily: "Oriental", topNotes: ["Mint", "Green Apple", "Lemon"], middleNotes: ["Tonka Bean", "Geranium"], baseNotes: ["Vanilla", "Vetiver", "Oakmoss"], mood: ["Confident", "Adventurous"], personality: ["Extrovert", "Ambivert"], occasion: ["Party", "Date Night"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Combination"], priceMin: 4000, priceMax: 7000, priceRange: "Premium", description: "A bold sweet-fresh god of love", emoji: "💙" },
-    { id: 20, name: "Bombshell", brand: "Victoria's Secret", gender: ["Female"], scentFamily: "Floral", topNotes: ["Purple Passion Fruit", "Peony"], middleNotes: ["Vanilla Orchid", "Jasmine"], baseNotes: ["Musk", "Velvet Moss"], mood: ["Happy", "Confident"], personality: ["Extrovert", "Free Spirit"], occasion: ["Party", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Normal"], priceMin: 3000, priceMax: 5500, priceRange: "Mid-Range", description: "A playful fruity-floral bestseller", emoji: "💜" },
-    { id: 21, name: "Red", brand: "Wild Stone", gender: ["Male"], scentFamily: "Oriental", topNotes: ["Bergamot", "Cinnamon"], middleNotes: ["Cedar", "Sandalwood"], baseNotes: ["Musk", "Vanilla"], mood: ["Confident", "Mysterious"], personality: ["Analytical", "Introvert"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 500, priceMax: 900, priceRange: "Budget", description: "A warm spicy oriental for everyday confidence", emoji: "🔴" },
-    { id: 22, name: "Zara Red Vanilla", brand: "Zara", gender: ["Unisex", "Female"], scentFamily: "Gourmand", topNotes: ["Red Apple", "Bergamot"], middleNotes: ["Vanilla", "Cinnamon"], baseNotes: ["Tonka Bean", "Musk"], mood: ["Romantic", "Happy"], personality: ["Creative", "Free Spirit"], occasion: ["Date Night", "Daily Wear"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 1200, priceMax: 2200, priceRange: "Budget", description: "A cozy vanilla-apple sweetness at a steal", emoji: "🍎" },
-    { id: 23, name: "Light Blue", brand: "Dolce & Gabbana", gender: ["Unisex", "Female"], scentFamily: "Citrus", topNotes: ["Sicilian Lemon", "Apple", "Bluebell"], middleNotes: ["Jasmine", "Bamboo", "Rose"], baseNotes: ["Cedarwood", "Amber", "Musk"], mood: ["Happy", "Adventurous"], personality: ["Free Spirit", "Extrovert"], occasion: ["Outdoor", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 4500, priceMax: 7500, priceRange: "Premium", description: "A sunny Sicilian citrus Mediterranean escape", emoji: "🍋" },
-    { id: 24, name: "Velvet Rose & Oud", brand: "Jo Malone", gender: ["Unisex"], scentFamily: "Woody", topNotes: ["Clove", "Praline"], middleNotes: ["Damask Rose", "Oud"], baseNotes: ["Smoky Wood", "Cashmere"], mood: ["Mysterious", "Romantic"], personality: ["Introvert", "Analytical"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 9000, priceMax: 15000, priceRange: "Luxury", description: "A sumptuous rose-oud evening masterpiece", emoji: "🥀" }
+    { id: 1, name: "Sauvage", brand: "Dior", gender: ["Male", "Unisex"], scentFamily: "Fresh", topNotes: ["Bergamot", "Pepper"], middleNotes: ["Lavender", "Geranium"], baseNotes: ["Ambroxan", "Cedar"], mood: ["Confident", "Adventurous"], personality: ["Extrovert", "Ambivert"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 6500, priceMax: 10000, priceRange: "Luxury", description: "A bold, magnetic woody-fresh trail", emoji: "🌊", reviews: [{ user: "Alex M.", r: 5, t: "Absolutely magnetic. I get compliments every time I wear it." }, { user: "Jordan T.", r: 4, t: "Great fresh scent, lasts about 6 hours on me." }] },
+    { id: 2, name: "Chanel No. 5", brand: "Chanel", gender: ["Female"], scentFamily: "Floral", topNotes: ["Ylang-Ylang", "Neroli"], middleNotes: ["Rose", "Jasmine"], baseNotes: ["Sandalwood", "Vanilla"], mood: ["Romantic", "Calm"], personality: ["Introvert", "Creative"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Mild"], skinType: ["Dry", "Normal"], priceMin: 8000, priceMax: 14000, priceRange: "Luxury", description: "The world's most iconic floral aldehyde", emoji: "🌹", reviews: [{ user: "Sarah L.", r: 5, t: "Timeless elegance. Nothing compares to the original." }, { user: "Emily R.", r: 5, t: "My signature scent for special evenings. Pure class." }] },
+    { id: 3, name: "Black Orchid", brand: "Tom Ford", gender: ["Unisex", "Female"], scentFamily: "Oriental", topNotes: ["Black Truffle", "Bergamot"], middleNotes: ["Black Orchid", "Lotus Wood"], baseNotes: ["Patchouli", "Vanilla"], mood: ["Mysterious", "Confident"], personality: ["Introvert", "Creative"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 10000, priceMax: 15000, priceRange: "Luxury", description: "A luxurious dark floral of opulent depth", emoji: "🖤", reviews: [{ user: "David K.", r: 5, t: "Dark, seductive, and powerful. Not for the faint of heart." }, { user: "Lisa P.", r: 4, t: "Incredible longevity, but definitely a winter scent." }] },
+    { id: 4, name: "Acqua di Gio", brand: "Giorgio Armani", gender: ["Male", "Unisex"], scentFamily: "Fresh", topNotes: ["Bergamot", "Neroli"], middleNotes: ["Sea Notes", "Rosemary"], baseNotes: ["Cedarwood", "Musk"], mood: ["Happy", "Calm"], personality: ["Ambivert", "Free Spirit"], occasion: ["Daily Wear", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 5500, priceMax: 9000, priceRange: "Premium", description: "A Mediterranean breeze in a bottle", emoji: "🏖️", reviews: [{ user: "Mike S.", r: 5, t: "The perfect summer fragrance. Clean and refreshing." }, { user: "Chris B.", r: 4, t: "Classic for a reason. Great for daily office wear." }] },
+    { id: 5, name: "Black Opium", brand: "Yves Saint Laurent", gender: ["Female"], scentFamily: "Gourmand", topNotes: ["Pink Pepper", "Orange Blossom"], middleNotes: ["Coffee", "Jasmine"], baseNotes: ["Vanilla", "Cedar"], mood: ["Confident", "Mysterious"], personality: ["Extrovert", "Creative"], occasion: ["Party", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Normal", "Dry"], priceMin: 6000, priceMax: 10000, priceRange: "Luxury", description: "An addictive coffee-vanilla adrenaline rush", emoji: "☕", reviews: [{ user: "Jessica W.", r: 5, t: "Addictive! The coffee note is just perfect." }, { user: "Ashley M.", r: 5, t: "My go-to party perfume. Sexy and sweet." }] },
+    { id: 6, name: "Cool Water", brand: "Davidoff", gender: ["Male"], scentFamily: "Fresh", topNotes: ["Mint", "Green Notes", "Calone"], middleNotes: ["Lavender", "Jasmine"], baseNotes: ["Sandalwood", "Musk"], mood: ["Happy", "Adventurous"], personality: ["Extrovert", "Free Spirit"], occasion: ["Daily Wear", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 1500, priceMax: 2800, priceRange: "Mid-Range", description: "A fresh aquatic classic since 1988", emoji: "💧", reviews: [{ user: "Tom H.", r: 4, t: "Affordable and reliable. Smells like the ocean." }, { user: "Ryan G.", r: 5, t: "Best budget freshie out there. Can't go wrong." }] },
+    { id: 7, name: "CK One", brand: "Calvin Klein", gender: ["Unisex"], scentFamily: "Citrus", topNotes: ["Bergamot", "Lemon", "Pineapple"], middleNotes: ["Jasmine", "Rose", "Nutmeg"], baseNotes: ["Musk", "Cedar", "Amber"], mood: ["Happy", "Calm"], personality: ["Ambivert", "Free Spirit"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Normal", "Combination"], priceMin: 1800, priceMax: 3500, priceRange: "Mid-Range", description: "The original clean unisex fragrance", emoji: "✨", reviews: [{ user: "Jamie L.", r: 4, t: "Clean, light, and inoffensive. Perfect for work." }, { user: "Sam D.", r: 5, t: "Nostalgic and fresh. Love that anyone can wear it." }] },
+    { id: 8, name: "English Pear & Freesia", brand: "Jo Malone", gender: ["Female", "Unisex"], scentFamily: "Floral", topNotes: ["Pear", "Melon"], middleNotes: ["Freesia", "Rose"], baseNotes: ["Patchouli", "Musk"], mood: ["Calm", "Happy"], personality: ["Creative", "Introvert"], occasion: ["Office", "Daily Wear"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 5500, priceMax: 9500, priceRange: "Premium", description: "An elegant autumnal pear garden", emoji: "🍐", reviews: [{ user: "Olivia C.", r: 5, t: "So crisp and elegant. Makes me feel put together." }, { user: "Grace T.", r: 4, t: "Beautiful scent, wish it lasted a bit longer." }] },
+    { id: 9, name: "Bloom", brand: "Gucci", gender: ["Female"], scentFamily: "Floral", topNotes: ["Rangoon Creeper"], middleNotes: ["Tuberose", "Jasmine"], baseNotes: ["Sandalwood", "Musk"], mood: ["Romantic", "Calm"], personality: ["Introvert", "Creative"], occasion: ["Date Night", "Special Event"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 5000, priceMax: 8500, priceRange: "Premium", description: "A rich white floral garden in bloom", emoji: "🌸", reviews: [{ user: "Sophia R.", r: 5, t: "Like walking into a garden. Tuberose heaven." }, { user: "Chloe B.", r: 5, t: "Very natural floral scent. Stunning bottle too." }] },
+    { id: 10, name: "Pour Homme", brand: "Versace", gender: ["Male"], scentFamily: "Citrus", topNotes: ["Lemon", "Bergamot", "Neroli"], middleNotes: ["Cedar", "Sage"], baseNotes: ["Amber", "Musk"], mood: ["Confident", "Happy"], personality: ["Extrovert", "Ambivert"], occasion: ["Office", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Normal"], priceMin: 3500, priceMax: 5500, priceRange: "Premium", description: "A refined Mediterranean citrus-amber elegance", emoji: "🍋", reviews: [{ user: "Daniel K.", r: 5, t: "Classy and versatile. My daily driver." }, { user: "Mark P.", r: 4, t: "Sharp citrus opening that settles beautifully." }] },
+    { id: 11, name: "Her", brand: "Burberry", gender: ["Female"], scentFamily: "Gourmand", topNotes: ["Dark Berries", "Blackcurrant"], middleNotes: ["Jasmine", "Violet"], baseNotes: ["Musk", "Amber", "Cashmeran"], mood: ["Happy", "Romantic"], personality: ["Creative", "Ambivert"], occasion: ["Date Night", "Party"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 4500, priceMax: 7500, priceRange: "Premium", description: "A vibrant London berry-musk embrace", emoji: "🫐", reviews: [{ user: "Ella F.", r: 5, t: "Sweet, fruity, and fun! Reminds me of strawberry milkshake." }, { user: "Mia S.", r: 4, t: "Great longevity. Very youthful and chic." }] },
+    { id: 12, name: "La Nuit de L'Homme", brand: "Yves Saint Laurent", gender: ["Male"], scentFamily: "Woody", topNotes: ["Cardamom", "Bergamot"], middleNotes: ["Lavender", "Cedar"], baseNotes: ["Vetiver", "Coumarin"], mood: ["Romantic", "Mysterious"], personality: ["Introvert", "Analytical"], occasion: ["Date Night", "Special Event"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 5500, priceMax: 9000, priceRange: "Premium", description: "A seductive spiced-lavender evening scent", emoji: "🌙", reviews: [{ user: "Jason L.", r: 5, t: "The ultimate date night fragrance. Women love it." }, { user: "Kevin W.", r: 4, t: "Spicy and warm. performance is average but smell is 10/10." }] },
+    { id: 13, name: "Bottled", brand: "Hugo Boss", gender: ["Male"], scentFamily: "Woody", topNotes: ["Apple", "Citrus", "Plum"], middleNotes: ["Geranium", "Cinnamon"], baseNotes: ["Sandalwood", "Cedar", "Vetiver"], mood: ["Confident", "Calm"], personality: ["Analytical", "Ambivert"], occasion: ["Office", "Daily Wear"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Combination"], priceMin: 3000, priceMax: 5000, priceRange: "Mid-Range", description: "A confident fruity-woody boardroom classic", emoji: "🍎", reviews: [{ user: "Robert D.", r: 5, t: "Professional and clean. Apple pie vibes but masculine." }, { user: "Steve M.", r: 4, t: "Solid choice for the office. Can't offend anyone." }] },
+    { id: 14, name: "Voyage", brand: "Nautica", gender: ["Male", "Unisex"], scentFamily: "Fresh", topNotes: ["Green Leaf", "Apple"], middleNotes: ["Mimosa", "Lotus"], baseNotes: ["Cedarwood", "Musk"], mood: ["Adventurous", "Happy"], personality: ["Free Spirit", "Extrovert"], occasion: ["Outdoor", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 1000, priceMax: 2200, priceRange: "Budget", description: "A fresh aquatic adventure for everyday wear", emoji: "⛵", reviews: [{ user: "Tyler J.", r: 5, t: "Best bang for your buck. Smells way more expensive." }, { user: "Connor B.", r: 4, t: "Great gym scent. Fresh and salty." }] },
+    { id: 15, name: "Coco Mademoiselle", brand: "Chanel", gender: ["Female"], scentFamily: "Oriental", topNotes: ["Orange", "Bergamot"], middleNotes: ["Rose", "Jasmine", "Lychee"], baseNotes: ["Patchouli", "Vetiver", "Musk"], mood: ["Confident", "Romantic"], personality: ["Ambivert", "Creative"], occasion: ["Office", "Special Event"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 8000, priceMax: 13000, priceRange: "Luxury", description: "An irresistible oriental-fresh sophistication", emoji: "💎", reviews: [{ user: "Victoria H.", r: 5, t: "Sophisticated and chic. I feel powerful wearing this." }, { user: "Amanda C.", r: 5, t: "Worth every penny. Lasts all day long." }] },
+    { id: 16, name: "Miss Dior", brand: "Dior", gender: ["Female"], scentFamily: "Floral", topNotes: ["Blood Orange", "Mandarin"], middleNotes: ["Rose", "Peony"], baseNotes: ["Patchouli", "Musk"], mood: ["Romantic", "Happy"], personality: ["Creative", "Free Spirit"], occasion: ["Date Night", "Daily Wear"], weather: ["Mild", "Hot & Humid"], skinType: ["Normal", "Combination"], priceMin: 6000, priceMax: 10000, priceRange: "Luxury", description: "A radiant rose-peony declaration of love", emoji: "🌺", reviews: [{ user: "Lily G.", r: 5, t: "So romantic and feminine. My wedding scent." }, { user: "Hannah K.", r: 4, t: "Beautiful rose scent, very sweet and airy." }] },
+    { id: 17, name: "Luna Rossa Carbon", brand: "Prada", gender: ["Male"], scentFamily: "Woody", topNotes: ["Bergamot", "Pepper"], middleNotes: ["Lavender", "Metallic Accord"], baseNotes: ["Ambroxan", "Patchouli"], mood: ["Confident", "Adventurous"], personality: ["Analytical", "Extrovert"], occasion: ["Office", "Outdoor"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 5000, priceMax: 8500, priceRange: "Premium", description: "A modern metallic-woody powerhouse", emoji: "🏎️", reviews: [{ user: "Brandon S.", r: 5, t: "Clean, soapy, metallic. Like a freshly ironed shirt." }, { user: "Eric T.", r: 5, t: "Updates the Sauvage DNA but smoother. Love it." }] },
+    { id: 18, name: "White Musk", brand: "The Body Shop", gender: ["Unisex", "Female"], scentFamily: "Fresh", topNotes: ["Peach Nectar", "Lily"], middleNotes: ["Rose", "Jasmine"], baseNotes: ["White Musk", "Cashmeran"], mood: ["Calm", "Happy"], personality: ["Introvert", "Free Spirit"], occasion: ["Daily Wear", "Office"], weather: ["Mild", "Cool & Dry"], skinType: ["Normal", "Dry"], priceMin: 800, priceMax: 1600, priceRange: "Budget", description: "A clean, ethical everyday musk", emoji: "🤍", reviews: [{ user: "Nina P.", r: 5, t: "So comforting and soft. My bedtime scent." }, { user: "Rachel M.", r: 4, t: "Clean laundry vibes. Simple and lovely." }] },
+    { id: 19, name: "Eros", brand: "Versace", gender: ["Male"], scentFamily: "Oriental", topNotes: ["Mint", "Green Apple", "Lemon"], middleNotes: ["Tonka Bean", "Geranium"], baseNotes: ["Vanilla", "Vetiver", "Oakmoss"], mood: ["Confident", "Adventurous"], personality: ["Extrovert", "Ambivert"], occasion: ["Party", "Date Night"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Combination"], priceMin: 4000, priceMax: 7000, priceRange: "Premium", description: "A bold sweet-fresh god of love", emoji: "💙", reviews: [{ user: "Justin B.", r: 5, t: "Beast mode projection! Perfect primarily for clubbing." }, { user: "Matt R.", r: 4, t: "Sweet minty vanilla. Ladies love it." }] },
+    { id: 20, name: "Bombshell", brand: "Victoria's Secret", gender: ["Female"], scentFamily: "Floral", topNotes: ["Purple Passion Fruit", "Peony"], middleNotes: ["Vanilla Orchid", "Jasmine"], baseNotes: ["Musk", "Velvet Moss"], mood: ["Happy", "Confident"], personality: ["Extrovert", "Free Spirit"], occasion: ["Party", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Normal"], priceMin: 3000, priceMax: 5500, priceRange: "Mid-Range", description: "A playful fruity-floral bestseller", emoji: "💜", reviews: [{ user: "Kylie J.", r: 5, t: "Fruity and fresh! Always makes me feel happy." }, { user: "Megan F.", r: 4, t: "Great scent, just have to reapply often." }] },
+    { id: 21, name: "Red", brand: "Wild Stone", gender: ["Male"], scentFamily: "Oriental", topNotes: ["Bergamot", "Cinnamon"], middleNotes: ["Cedar", "Sandalwood"], baseNotes: ["Musk", "Vanilla"], mood: ["Confident", "Mysterious"], personality: ["Analytical", "Introvert"], occasion: ["Daily Wear", "Office"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 500, priceMax: 900, priceRange: "Budget", description: "A warm spicy oriental for everyday confidence", emoji: "🔴", reviews: [{ user: "Rahul S.", r: 5, t: "Unbeatable for the price. Smells very premium." }, { user: "Vikram A.", r: 4, t: "Punchy and spicy. Great for daily use." }] },
+    { id: 22, name: "Zara Red Vanilla", brand: "Zara", gender: ["Unisex", "Female"], scentFamily: "Gourmand", topNotes: ["Red Apple", "Bergamot"], middleNotes: ["Vanilla", "Cinnamon"], baseNotes: ["Tonka Bean", "Musk"], mood: ["Romantic", "Happy"], personality: ["Creative", "Free Spirit"], occasion: ["Date Night", "Daily Wear"], weather: ["Cool & Dry", "Mild"], skinType: ["Normal", "Dry"], priceMin: 1200, priceMax: 2200, priceRange: "Budget", description: "A cozy vanilla-apple sweetness at a steal", emoji: "🍎", reviews: [{ user: "Priya M.", r: 5, t: "Dupe for LVEB! So warm and delicious." }, { user: "Anjali K.", r: 4, t: "Sweet and cozy. Perfect for winter days." }] },
+    { id: 23, name: "Light Blue", brand: "Dolce & Gabbana", gender: ["Unisex", "Female"], scentFamily: "Citrus", topNotes: ["Sicilian Lemon", "Apple", "Bluebell"], middleNotes: ["Jasmine", "Bamboo", "Rose"], baseNotes: ["Cedarwood", "Amber", "Musk"], mood: ["Happy", "Adventurous"], personality: ["Free Spirit", "Extrovert"], occasion: ["Outdoor", "Daily Wear"], weather: ["Hot & Humid", "Mild"], skinType: ["Oily", "Combination"], priceMin: 4500, priceMax: 7500, priceRange: "Premium", description: "A sunny Sicilian citrus Mediterranean escape", emoji: "🍋", reviews: [{ user: "Maria C.", r: 5, t: "Summer in a bottle. Zesty and uplifting." }, { user: "Sophie T.", r: 5, t: "My signature summer scent for 10 years." }] },
+    { id: 24, name: "Velvet Rose & Oud", brand: "Jo Malone", gender: ["Unisex"], scentFamily: "Woody", topNotes: ["Clove", "Praline"], middleNotes: ["Damask Rose", "Oud"], baseNotes: ["Smoky Wood", "Cashmere"], mood: ["Mysterious", "Romantic"], personality: ["Introvert", "Analytical"], occasion: ["Special Event", "Date Night"], weather: ["Cool & Dry", "Rainy"], skinType: ["Dry", "Normal"], priceMin: 9000, priceMax: 15000, priceRange: "Luxury", description: "A sumptuous rose-oud evening masterpiece", emoji: "🥀", reviews: [{ user: "Aisha N.", r: 5, t: "Rich, jammy rose wrapped in velvet oud. Stunning." }, { user: "Zara Q.", r: 5, t: "Intoxicating and deep. Perfect for formal events." }] }
 ];
 
 // ========== QUIZ STEPS ==========
+let userCurrency = localStorage.getItem('veloura_cur') || 'INR';
+const currencyConfig = {
+    INR: { rate: 1, symbol: '₹', locale: 'en-IN' },
+    USD: { rate: 0.012, symbol: '$', locale: 'en-US' }
+};
+
+function formatPrice(amt) {
+    const cfg = currencyConfig[userCurrency];
+    const val = Math.round(amt * cfg.rate);
+    return cfg.symbol + val.toLocaleString(cfg.locale);
+}
+
+function changeCurrency(cur) {
+    userCurrency = cur;
+    localStorage.setItem('veloura_cur', cur);
+    if (page === 'quiz') renderQuiz();
+    if (page === 'results') renderResults();
+    if (page === 'explore') filterExplore();
+}
+
 // ========== QUIZ STEPS ==========
 const steps = [
     {
@@ -108,10 +128,10 @@ function renderQuiz() {
         if (s.type === 'slider') {
             const v = ui.budget || 3000;
             html += `<div class="budget-wrap">
-                        <div class="bv" id="bv">₹${Number(v).toLocaleString('en-IN')}</div>
+                        <div class="bv" id="bv">${formatPrice(v)}</div>
                         <div class="bt" id="bt">${tier(v)}</div>
                         <input type="range" id="bslider" min="500" max="50000" step="500" value="${v}">
-                        <div class="range-labels"><span>₹500</span><span>₹50,000</span></div>
+                        <div class="range-labels"><span>${formatPrice(500)}</span><span>${formatPrice(50000)}+</span></div>
                     </div>`;
         } else {
             html += `<div class="opts${s.cols === 4 ? ' col4' : ''}">`;
@@ -147,7 +167,7 @@ function renderQuiz() {
     if (slider) {
         slider.addEventListener('input', function () {
             ui.budget = +this.value;
-            document.getElementById('bv').textContent = '₹' + Number(this.value).toLocaleString('en-IN');
+            document.getElementById('bv').textContent = formatPrice(this.value);
             document.getElementById('bt').textContent = tier(this.value);
         });
     }
@@ -162,7 +182,15 @@ function scrollToQ(idx) {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function tier(v) { v = +v; if (v <= 2000) return 'Budget Friendly'; if (v <= 6000) return 'Mid-Range'; if (v <= 15000) return 'Premium'; if (v <= 30000) return 'Luxury'; return 'Ultra Luxury' }
+function tier(v) {
+    v = +v;
+    const r = currencyConfig[userCurrency].rate;
+    if (v <= 2000 * r) return 'Budget Friendly';
+    if (v <= 6000 * r) return 'Mid-Range';
+    if (v <= 15000 * r) return 'Premium';
+    if (v <= 30000 * r) return 'Luxury';
+    return 'Ultra Luxury';
+}
 
 function pick(k, v, el) {
     ui[k] = v;
@@ -225,23 +253,88 @@ function calcResults() {
     renderResults();
 }
 
-// ========== RESULTS ==========
+function generateExplanation(p) {
+    const reasons = [];
+    if (p.mood.includes(ui.mood)) reasons.push(`Matches your **${ui.mood}** mood perfectly.`);
+    if (p.scentFamily === ui.scentFamily) reasons.push(`Features the **${ui.scentFamily}** family you prefer.`);
+    if (p.personality.includes(ui.personality)) reasons.push(`Fits your **${ui.personality}** character.`);
+    if (p.occasion.includes(ui.occasion)) reasons.push(`Ideal for **${ui.occasion}** settings.`);
+    if (p.weather.includes(ui.weather)) reasons.push(`Works great in **${ui.weather}** conditions.`);
+
+    return reasons.length > 0
+        ? reasons.join(' ')
+        : "A balanced choice that aligns with your overall style and budget preferences.";
+}
+
 function renderResults() {
     document.getElementById('summary').innerHTML = `Based on your <strong>${ui.mood}</strong> mood, <strong>${ui.personality}</strong> personality, for <strong>${ui.occasion}</strong> — here are your top matches`;
     let h = '';
     res.forEach((p, i) => {
         const sv = saved.includes(p.id), fw = fb[p.id] || 0;
         const sf = 'sf-' + p.scentFamily.toLowerCase();
+
+        // Intensity percentages for Note Bars (simulated)
+        const topInt = 80 + Math.floor(Math.random() * 20);
+        const midInt = 60 + Math.floor(Math.random() * 30);
+        const baseInt = 40 + Math.floor(Math.random() * 40);
+
+        // Reviews HTML
+        const reviewsHtml = (p.reviews || []).map(r => `
+            <div class="review-card">
+                <div class="rev-head">
+                    <span class="rev-user">${r.user}</span>
+                    <span class="rev-stars">${'★'.repeat(r.r)}${'☆'.repeat(5 - r.r)}</span>
+                </div>
+                <p class="rev-text">"${r.t}"</p>
+            </div>
+        `).join('');
+
         h += `<div class="p-card" style="animation-delay:${i * .08}s">
-      <div class="p-head"><span class="p-emoji">${p.emoji}</span><div><span class="p-match">${p.match}%</span><span class="p-match-label">match</span></div></div>
+      <div class="p-head">
+        <span class="p-emoji">${p.emoji}</span>
+        <div>
+            <span class="p-match">${p.match}%</span>
+            <span class="p-match-label">match</span>
+        </div>
+      </div>
+      
       <div class="p-name">${p.name}</div>
       <div class="p-brand">${p.brand}</div>
       <span class="s-badge ${sf}">${p.scentFamily}</span>
-      <div class="notes-row"><div class="notes-lbl">Top Notes</div><div class="notes-pills">${p.topNotes.map(n => `<span class="n-pill">${n}</span>`).join('')}</div></div>
-      <div class="notes-row"><div class="notes-lbl">Heart Notes</div><div class="notes-pills">${p.middleNotes.map(n => `<span class="n-pill">${n}</span>`).join('')}</div></div>
-      <div class="notes-row"><div class="notes-lbl">Base Notes</div><div class="notes-pills">${p.baseNotes.map(n => `<span class="n-pill">${n}</span>`).join('')}</div></div>
-      <div class="p-price">₹${p.priceMin.toLocaleString('en-IN')} – ₹${p.priceMax.toLocaleString('en-IN')}  ·  ${p.priceRange}</div>
+
+      <div class="ai-exp-box">
+        <button class="ai-exp-toggle" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>✨ Why this perfume?</span>
+            <span class="chevron">▾</span>
+        </button>
+        <div class="ai-exp-text hidden">${generateExplanation(p)}</div>
+      </div>
+
+      <div class="notes-viz">
+        <div class="note-bar">
+            <div class="note-info"><span>Top Notes</span><small>${p.topNotes[0]}</small></div>
+            <div class="note-track"><div class="note-fill top" style="width:${topInt}%"></div></div>
+        </div>
+        <div class="note-bar">
+            <div class="note-info"><span>Heart Notes</span><small>${p.middleNotes[0]}</small></div>
+            <div class="note-track"><div class="note-fill mid" style="width:${midInt}%"></div></div>
+        </div>
+        <div class="note-bar">
+            <div class="note-info"><span>Base Notes</span><small>${p.baseNotes[0]}</small></div>
+            <div class="note-track"><div class="note-fill base" style="width:${baseInt}%"></div></div>
+        </div>
+      </div>
+
+      <div class="p-price">${formatPrice(p.priceMin)} – ${formatPrice(p.priceMax)}  ·  ${p.priceRange}</div>
       <div class="occ-tags">${p.occasion.map(o => `<span class="occ-tag">${o}</span>`).join('')}</div>
+      
+      <button class="rev-toggle-btn" onclick="toggleReviews(${p.id}, this)">
+        See ${p.reviews ? p.reviews.length : 0} Reviews 💬
+      </button>
+      <div id="rev-${p.id}" class="perfume-reviews hidden">
+        ${reviewsHtml}
+      </div>
+
       <div class="p-actions">
         <button id="sv-${p.id}" class="${sv ? 'saved' : ''}" onclick="doSave(${p.id})">💾 ${sv ? 'Saved' : 'Save'}</button>
         <button id="lk-${p.id}" class="${fw > 0 ? 'liked' : ''}" onclick="doLike(${p.id})">👍</button>
@@ -250,6 +343,14 @@ function renderResults() {
     </div>`;
     });
     document.getElementById('r-grid').innerHTML = h;
+}
+
+function toggleReviews(id, btn) {
+    const el = document.getElementById('rev-' + id);
+    const isHidden = el.classList.contains('hidden');
+    el.classList.toggle('hidden');
+    btn.textContent = isHidden ? 'Hide Reviews ▲' : `See Reviews 💬`;
+    btn.classList.toggle('active', isHidden);
 }
 
 // ========== FEEDBACK ==========
@@ -375,6 +476,10 @@ doDis = function (id) { origDis(id); saveUserData(); };
 
 // ========== INIT ==========
 (async function init() {
+    // Restore currency selection
+    const curEl = document.getElementById('curSelect');
+    if (curEl) curEl.value = userCurrency;
+
     // Restore theme
     const savedTheme = localStorage.getItem('veloura_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);

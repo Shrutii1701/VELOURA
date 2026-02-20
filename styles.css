@@ -757,6 +757,41 @@
             transform: translateX(24px)
         }
 
+        .cur-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+            font-family: var(--sans);
+            transition: all 0.3s;
+            margin-right: 8px;
+        }
+
+        .cur-select:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--gold);
+        }
+
+        .cur-select option {
+            background: #1a0f1e;
+            color: #fff;
+        }
+
+        [data-theme="light"] .cur-select {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #2d1f35;
+        }
+
+        [data-theme="light"] .cur-select option {
+            background: #fff;
+            color: #2d1f35;
+        }
+
         /* Nav user pill */
         .nav-user {
             display: flex;
@@ -3032,4 +3067,179 @@
             left: 80%;
             animation: bottleDrift 25s ease-in-out infinite 0s;
             font-size: 1.7rem;
+        }
+
+        /* ===== USER REVIEWS ===== */
+        .rev-toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--gold);
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 16px;
+            padding: 4px 0;
+            text-align: left;
+            width: 100%;
+            transition: color 0.3s;
+            font-family: var(--sans);
+            letter-spacing: 0.02em;
+        }
+
+        .rev-toggle-btn:hover {
+            color: var(--rose);
+            text-decoration: underline;
+        }
+
+        .perfume-reviews {
+            margin-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .perfume-reviews.hidden {
+            display: none;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .rev-head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .rev-stars {
+            color: var(--gold);
+        }
+
+        .rev-text {
+            font-style: italic;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        [data-theme="light"] .perfume-reviews {
+            border-top-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="light"] .review-card {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* ===== AI EXPLANATION & NOTE VIZ ===== */
+        .ai-exp-box {
+            margin: 12px 0;
+            background: rgba(var(--gold-rgb), 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(var(--gold-rgb), 0.1);
+        }
+
+        .ai-exp-toggle {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .ai-exp-toggle:hover {
+            background: rgba(var(--gold-rgb), 0.05);
+        }
+
+        .ai-exp-text {
+            padding: 0 14px 14px 14px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .ai-exp-text strong {
+            color: var(--gold);
+        }
+
+        .notes-viz {
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .note-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .note-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .note-info span {
+            opacity: 0.6;
+        }
+
+        .note-info small {
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: none;
+        }
+
+        .note-track {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .note-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        .note-fill.top {
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+        }
+
+        .note-fill.mid {
+            background: linear-gradient(90deg, #a18cd1, #fbc2eb);
+        }
+
+        .note-fill.base {
+            background: linear-gradient(90deg, #84fab0, #8fd3f4);
+        }
+
+        [data-theme="light"] .note-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .ai-exp-box {
+            background: rgba(138, 101, 52, 0.05);
+            border-color: rgba(138, 101, 52, 0.1);
         }
