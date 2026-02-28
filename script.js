@@ -1,7 +1,6 @@
 ﻿// ========== STATE ==========
 let page = 'landing', step = 0, ui = {}, saved = [], fb = {}, res = [];
-let currentUser = null;
-let authMode = 'login';
+let currentUser = { email: 'guest', name: 'Guest' };
 
 // ========== 24 REAL-WORLD PERFUMES ==========
 const perfumes = [
@@ -430,109 +429,6 @@ function toggleTheme() {
     localStorage.setItem('veloura_theme', isLight ? 'dark' : 'light');
 }
 
-// ========== AUTH SYSTEM ==========
-const API = ''; // same origin
-
-function switchTab(mode) {
-    authMode = mode;
-    document.getElementById('tab-login').classList.toggle('active', mode === 'login');
-    document.getElementById('tab-signup').classList.toggle('active', mode === 'signup');
-    document.getElementById('fg-name').style.display = mode === 'signup' ? 'block' : 'none';
-    document.getElementById('auth-btn').textContent = mode === 'signup' ? 'Create Account' : 'Sign In';
-    document.getElementById('auth-error').textContent = '';
-}
-
-async function handleAuth(e) {
-    e.preventDefault();
-    const email = document.getElementById('auth-email').value.trim();
-    const pass = document.getElementById('auth-pass').value;
-    const name = document.getElementById('auth-name').value.trim();
-    const errEl = document.getElementById('auth-error');
-    errEl.textContent = '';
-
-    try {
-        if (authMode === 'signup') {
-            if (!name) { errEl.textContent = 'Please enter your name'; return false; }
-            const resp = await fetch(API + '/api/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password: pass })
-            });
-            const data = await resp.json();
-            if (!resp.ok) { errEl.textContent = data.error; return false; }
-            loginAs(data.user.email, data.user.name, [], {});
-            toast('Account created — welcome to VELOURA! ✨');
-        } else {
-            const resp = await fetch(API + '/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password: pass })
-            });
-            const data = await resp.json();
-            if (!resp.ok) { errEl.textContent = data.error; return false; }
-            loginAs(data.user.email, data.user.name, data.user.saved || [], data.user.fb || {});
-            toast('Welcome back, ' + data.user.name + '! ✨');
-        }
-    } catch (err) {
-        errEl.textContent = 'Server unavailable — please try again';
-        console.error('Auth error:', err);
-    }
-    return false;
-}
-
-function loginAs(email, name, sv, feedback) {
-    currentUser = { email, name };
-    saved = sv;
-    fb = feedback;
-    localStorage.setItem('veloura_session', JSON.stringify(currentUser));
-    updateNavUser();
-    showPage('landing');
-}
-
-function guestLogin() {
-    currentUser = { email: 'guest', name: 'Guest' };
-    localStorage.setItem('veloura_session', JSON.stringify(currentUser));
-    updateNavUser();
-    showPage('landing');
-    toast('Browsing as guest — sign up to save preferences');
-}
-
-function doLogout() {
-    if (!confirm('Sign out of VELOURA?')) return;
-    saveUserData();
-    currentUser = null;
-    localStorage.removeItem('veloura_session');
-    saved = []; fb = {};
-    document.getElementById('navUser').style.display = 'none';
-    showPage('login');
-    toast('Signed out successfully');
-}
-
-function updateNavUser() {
-    const nu = document.getElementById('navUser');
-    if (currentUser) {
-        nu.style.display = 'flex';
-        document.getElementById('navAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
-        document.getElementById('navName').textContent = currentUser.name;
-    } else {
-        nu.style.display = 'none';
-    }
-}
-
-function saveUserData() {
-    if (!currentUser || currentUser.email === 'guest') return;
-    fetch(API + '/api/save-prefs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: currentUser.email, saved, fb })
-    }).catch(err => console.error('Save prefs error:', err));
-}
-
-// Save data on feedback actions
-const origSave = doSave, origLike = doLike, origDis = doDis;
-doSave = function (id) { origSave(id); saveUserData(); };
-doLike = function (id) { origLike(id); saveUserData(); };
-doDis = function (id) { origDis(id); saveUserData(); };
 
 // ========== INIT ==========
 (async function init() {
@@ -543,29 +439,12 @@ doDis = function (id) { origDis(id); saveUserData(); };
     const savedTheme = localStorage.getItem('veloura_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     if (savedTheme === 'light') {
-        document.getElementById('themeToggle').classList.add('light');
-        document.getElementById('toggleBall').textContent = '☀️';
+        const toggle = document.getElementById('themeToggle');
+        if (toggle) toggle.classList.add('light');
+        const ball = document.getElementById('toggleBall');
+        if (ball) ball.textContent = '☀️';
     }
-    // Auto-login from session
-    const session = JSON.parse(localStorage.getItem('veloura_session') || 'null');
-    if (session) {
-        currentUser = session;
-        if (session.email !== 'guest') {
-            // Try to load user data from server
-            try {
-                const resp = await fetch(API + '/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: session.email, password: '__session_restore__' })
-                });
-                // Silent fail — user will need to re-login if session is invalid
-            } catch (e) { /* server offline, use cached session */ }
-        }
-        updateNavUser();
-        showPage('landing');
-    } else {
-        showPage('login');
-    }
+    showPage('landing');
 })();
 
 // ========== NAV SCROLL ==========
@@ -654,7 +533,7 @@ async function renderFbHistory() {
     const container = document.getElementById('fb-history');
     const email = currentUser ? currentUser.email : null;
 
-    if (!email || email === 'guest') {
+    if (!email) {
         container.style.display = 'none';
         return;
     }
@@ -693,11 +572,13 @@ async function renderFbHistory() {
 
 // Auto-fill feedback form with logged-in user info
 function prefillFeedbackForm() {
-    if (currentUser && currentUser.email !== 'guest') {
+    if (currentUser) {
         const nameEl = document.getElementById('fb-name');
         const emailEl = document.getElementById('fb-email');
         if (nameEl && !nameEl.value) nameEl.value = currentUser.name;
-        if (emailEl && !emailEl.value) emailEl.value = currentUser.email;
+        if (emailEl && !emailEl.value) {
+            emailEl.value = (currentUser.email === 'guest' ? '' : currentUser.email);
+        }
     }
     renderFbHistory();
 }
@@ -711,12 +592,7 @@ showPage = function (p) {
 
 // ========== DEMO MODE ==========
 function startDemo() {
-    // 1. Set guest user
-    currentUser = { email: 'demo@veloura.app', name: 'Demo Visitor' };
-    localStorage.setItem('veloura_session', JSON.stringify(currentUser));
-    updateNavUser();
-
-    // 2. Randomly fill quiz
+    // 1. Randomly fill quiz
     ui = { budget: 5000 + Math.floor(Math.random() * 10000) };
     const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
