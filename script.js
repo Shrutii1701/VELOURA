@@ -42,7 +42,8 @@ const currencyConfig = {
 };
 
 function toggleCurDropdown() {
-    document.getElementById('curOptions').classList.toggle('active');
+    const opt = document.getElementById('curOptions');
+    if (opt) opt.classList.toggle('active');
 }
 
 function selectCurrency(cur) {
@@ -53,9 +54,27 @@ function selectCurrency(cur) {
 
     if (page === 'quiz') renderQuiz();
     if (page === 'results') renderResults();
-    if (page === 'explore') filterExplore();
 
     toast(`Currency changed to ${cur} ${currencyConfig[cur].symbol}`);
+}
+
+function getCurrencyDropdownHTML(extraClass = '') {
+    const cfg = currencyConfig[userCurrency];
+    return `
+        <div class="custom-cur-select ${extraClass}" id="curSelectContainer">
+            <div class="cur-selected" onclick="toggleCurDropdown()">
+                <span id="curSelectedText">${cfg.symbol} ${userCurrency}</span>
+                <span class="chevron">▾</span>
+            </div>
+            <div class="cur-options" id="curOptions">
+                <div class="cur-option" onclick="selectCurrency('USD')">$ USD</div>
+                <div class="cur-option" onclick="selectCurrency('EUR')">€ EUR</div>
+                <div class="cur-option" onclick="selectCurrency('CNY')">¥ CNY</div>
+                <div class="cur-option" onclick="selectCurrency('JPY')">¥ JPY</div>
+                <div class="cur-option" onclick="selectCurrency('INR')">₹ INR</div>
+            </div>
+        </div>
+    `;
 }
 
 function updateCurDisplay() {
@@ -83,7 +102,6 @@ function changeCurrency(cur) {
     localStorage.setItem('veloura_cur', cur);
     if (page === 'quiz') renderQuiz();
     if (page === 'results') renderResults();
-    if (page === 'explore') filterExplore();
 }
 
 // ========== QUIZ STEPS ==========
@@ -162,8 +180,11 @@ function renderQuiz() {
         if (s.type === 'slider') {
             const v = ui.budget || 3000;
             html += `<div class="budget-wrap">
+                        <div class="budget-header">
+                            <div class="bt" id="bt">${tier(v)}</div>
+                            ${getCurrencyDropdownHTML('budget-cur')}
+                        </div>
                         <div class="bv" id="bv">${formatPrice(v)}</div>
-                        <div class="bt" id="bt">${tier(v)}</div>
                         <input type="range" id="bslider" min="500" max="50000" step="500" value="${v}">
                         <div class="range-labels"><span>${formatPrice(500)}</span><span>${formatPrice(50000)}+</span></div>
                     </div>`;
@@ -301,7 +322,12 @@ function generateExplanation(p) {
 }
 
 function renderResults() {
-    document.getElementById('summary').innerHTML = `Based on your <strong>${ui.mood}</strong> mood, <strong>${ui.personality}</strong> personality, for <strong>${ui.occasion}</strong> — here are your top matches`;
+    document.getElementById('summary').innerHTML = `
+        <div class="results-header">
+            <div class="summary-text">Based on your <strong>${ui.mood}</strong> mood, <strong>${ui.personality}</strong> personality, for <strong>${ui.occasion}</strong> — here are your top matches</div>
+            ${getCurrencyDropdownHTML('results-cur')}
+        </div>
+    `;
     let h = '';
     res.forEach((p, i) => {
         const sv = saved.includes(p.id), fw = fb[p.id] || 0;
@@ -794,139 +820,3 @@ function shareProfile() {
     }
 }
 
-// ========== EXPLORE & COMPARE ==========
-let compareList = [];
-
-function filterExplore() {
-    const q = document.getElementById('explore-search').value.toLowerCase();
-    const fam = document.getElementById('explore-family').value;
-    const price = document.getElementById('explore-price').value;
-
-    const filtered = perfumes.filter(p => {
-        const matchesQ = p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q);
-        const matchesFam = !fam || p.scentFamily === fam;
-        let matchesPrice = true;
-        if (price === 'low') matchesPrice = p.priceMin < 5000;
-        if (price === 'mid') matchesPrice = p.priceMin >= 5000 && p.priceMin <= 15000;
-        if (price === 'high') matchesPrice = p.priceMin > 15000;
-
-        return matchesQ && matchesFam && matchesPrice;
-    });
-
-    renderExplore(filtered);
-}
-
-function renderExplore(list) {
-    if (!list) return filterExplore(); // Initial call
-
-    const grid = document.getElementById('explore-grid');
-    if (!grid) return;
-
-    if (list.length === 0) {
-        grid.innerHTML = '<div class="no-results">No perfumes found matching your criteria.</div>';
-        return;
-    }
-
-    grid.innerHTML = list.map((p, i) => `
-        <div class="p-card" style="animation-delay: ${Math.min(i * 50, 500)}ms">
-            <div class="p-emoji">${p.emoji}</div>
-            <div class="p-info">
-                <h3>${p.name}</h3>
-                <p class="p-brand">${p.brand}</p>
-                <div class="p-tags">
-                    <span class="p-tag">${p.scentFamily}</span>
-                    <span class="p-tag">₹${p.priceMin.toLocaleString()}</span>
-                </div>
-                <!-- Compare Toggle -->
-                <button class="compare-btn ${compareList.includes(p.id) ? 'active' : ''}" 
-                        onclick="toggleCompare(${p.id}, this)">
-                    ${compareList.includes(p.id) ? '✓ Compare' : '+ Compare'}
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-function toggleCompare(id, btn) {
-    if (compareList.includes(id)) {
-        compareList = compareList.filter(pid => pid !== id);
-        if (btn) {
-            btn.classList.remove('active');
-            btn.innerHTML = '+ Compare';
-        }
-    } else {
-        if (compareList.length >= 3) return toast('Select up to 3 perfumes to compare');
-        compareList.push(id);
-        if (btn) {
-            btn.classList.add('active');
-            btn.innerHTML = '✓ Compare';
-        }
-    }
-    updateCompareUI();
-}
-
-function updateCompareUI() {
-    const fab = document.getElementById('compare-fab');
-    if (!fab) return;
-    fab.textContent = `Compare (${compareList.length})`;
-    if (compareList.length > 0) fab.classList.remove('hidden');
-    else fab.classList.add('hidden');
-
-    // If on compare page, re-render
-    if (page === 'compare') renderCompare();
-}
-
-function renderCompare() {
-    const contain = document.getElementById('compare-grid');
-    if (!contain) return;
-
-    if (compareList.length === 0) {
-        contain.innerHTML = '<div class="empty-state">Select perfumes from the Directory to compare.</div>';
-        return;
-    }
-
-    const items = perfumes.filter(p => compareList.includes(p.id));
-
-    let html = `<div class="compare-table">`;
-    // Header Row with Images/Names
-    html += `<div class="c-row header"><div class="c-cell label">Feature</div>`;
-    items.forEach(p => {
-        html += `<div class="c-cell item">
-                    <div class="c-emoji">${p.emoji}</div>
-                    <b>${p.name}</b>
-                    <small>${p.brand}</small>
-                    <button class="remove-btn" onclick="toggleCompare(${p.id})">Remove</button>
-                 </div>`;
-    });
-    html += `</div>`; // end header row
-
-    // Data Rows
-    const rows = [
-        { l: 'Family', k: 'scentFamily' },
-        { l: 'Price Range', f: p => `₹${p.priceMin.toLocaleString()} - ₹${p.priceMax.toLocaleString()}` },
-        { l: 'Mood', f: p => p.mood.join(', ') },
-        { l: 'Occasion', f: p => p.occasion.join(', ') },
-        { l: 'Top Notes', f: p => p.topNotes.join(', ') },
-        { l: 'Heart Notes', f: p => p.middleNotes.join(', ') },
-        { l: 'Base Notes', f: p => p.baseNotes.join(', ') }
-    ];
-
-    rows.forEach(r => {
-        html += `<div class="c-row"><div class="c-cell label">${r.l}</div>`;
-        items.forEach(p => {
-            const val = r.k ? p[r.k] : r.f(p);
-            html += `<div class="c-cell">${val}</div>`;
-        });
-        html += `</div>`;
-    });
-    html += `</div>`;
-    contain.innerHTML = html;
-}
-
-// Hook into showPage
-const _superShowPage2 = showPage;
-showPage = function (p) {
-    _superShowPage2(p);
-    if (p === 'explore') setTimeout(filterExplore, 0);
-    if (p === 'compare') setTimeout(renderCompare, 0);
-};

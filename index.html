@@ -45,28 +45,17 @@
 
     <!-- NAV -->
     <nav class="nav" id="mainNav">
-        <div class="brand">
-            <div class="brand-icon">V</div>
-            <span class="brand-name">VELOURA</span>
-        </div>
-        <div class="nav-links">
-            <button class="nav-link" onclick="showPage('landing')">Home</button>
-            <button class="nav-link" onclick="showPage('explore')">Directory</button>
+        <div class="nav-left">
+            <div class="brand">
+                <div class="brand-icon">V</div>
+                <span class="brand-name">VELOURA</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-link" onclick="showPage('landing')">Home</button>
+            </div>
         </div>
         <div class="nav-right">
-            <div class="custom-cur-select" id="curSelectContainer">
-                <div class="cur-selected" onclick="toggleCurDropdown()">
-                    <span id="curSelectedText">₹ INR</span>
-                    <span class="chevron">▾</span>
-                </div>
-                <div class="cur-options" id="curOptions">
-                    <div class="cur-option" onclick="selectCurrency('USD')">$ USD</div>
-                    <div class="cur-option" onclick="selectCurrency('EUR')">€ EUR</div>
-                    <div class="cur-option" onclick="selectCurrency('CNY')">¥ CNY</div>
-                    <div class="cur-option" onclick="selectCurrency('JPY')">¥ JPY</div>
-                    <div class="cur-option" onclick="selectCurrency('INR')">₹ INR</div>
-                </div>
-            </div>
+
             <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
                 <div class="toggle-ball" id="toggleBall">🌙</div>
             </div>
@@ -175,43 +164,7 @@
 
     </section>
 
-    <!-- EXPLORE -->
-    <section id="page-explore" class="page">
-        <div class="explore-wrap">
-            <div class="explore-header">
-                <h2>Fragrance Directory</h2>
-                <p>Browse our curated collection of 100% authentic perfumes.</p>
-            </div>
-            <div class="explore-controls">
-                <input type="text" id="explore-search" placeholder="Search perfumes..." oninput="filterExplore()">
-                <select id="explore-family" onchange="filterExplore()">
-                    <option value="">All Families</option>
-                    <option value="Floral">Floral</option>
-                    <option value="Woody">Woody</option>
-                    <option value="Fresh">Fresh</option>
-                    <option value="Oriental">Oriental</option>
-                    <option value="Gourmand">Gourmand</option>
-                </select>
-                <select id="explore-price" onchange="filterExplore()">
-                    <option value="">Any Price</option>
-                    <option value="low">Under ₹5,000</option>
-                    <option value="mid">₹5,000 - ₹15,000</option>
-                    <option value="high">Over ₹15,000</option>
-                </select>
-            </div>
-            <div class="r-grid" id="explore-grid"></div>
-            <button id="compare-fab" class="compare-fab hidden" onclick="showPage('compare')">Compare (0)</button>
-        </div>
-    </section>
 
-    <!-- COMPARE -->
-    <section id="page-compare" class="page">
-        <div class="compare-wrap">
-            <button class="back-btn" onclick="showPage('explore')">← Back to Directory</button>
-            <h2>Compare Perfumes</h2>
-            <div class="compare-grid" id="compare-grid"></div>
-        </div>
-    </section>
 
     <!-- PROFILE -->
     <section id="page-profile" class="page">

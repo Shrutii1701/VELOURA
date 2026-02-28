@@ -10,6 +10,11 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static(__dirname)); // Serve index.html, styles.css, script.js
 
+// Handle Server Errors
+app.on('error', (err) => {
+    console.error('Server error:', err);
+});
+
 // ========== DATA HELPERS ==========
 const DATA_DIR = path.join(__dirname, 'data');
 
